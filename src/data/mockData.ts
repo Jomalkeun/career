@@ -1,0 +1,58 @@
+import type { Career } from "../types";
+
+export const careerData: Career[] = [
+  {
+    id: "1",
+    period: "2018.04 ~ Present",
+    company: "Freelancer",
+    role: "Web Publisher & Instructor",
+    category: "Freelance",
+    description: "Web publishing and development lectures. Specialized in responsive design and UI interaction.",
+    techStack: ["HTML", "CSS", "JavaScript", "React", "Vue.js", "Publishing"],
+  },
+  {
+    id: "2",
+    period: "2017.06 ~ 2019.05",
+    company: "Inu Korea",
+    role: "Online Service Manager",
+    category: "Startup",
+    description: "Managed online services, including planning, operation, and UI/UX improvements.",
+    techStack: ["Service Planning", "UI/UX", "Operations"],
+  },
+  {
+    id: "3",
+    period: "2017.02 ~ 2018.02",
+    company: "V-MAKERS",
+    role: "Publishing Instructor & Editor",
+    category: "Education",
+    description: "Lectured on web publishing and managed editorial content for the publishing department.",
+    techStack: ["Teaching", "Publishing", "Editing"],
+  },
+  {
+    id: "4",
+    period: "2016.10 ~ 2017.05",
+    company: "Green Computer Art Academy",
+    role: "Web Publishing Instructor",
+    category: "Education",
+    description: "Conducted government-funded training courses for web publishing.",
+    techStack: ["Teaching", "HTML", "CSS", "jQuery"],
+  },
+  {
+    id: "5",
+    period: "2016.01 ~ 2016.05",
+    company: "Mad Square",
+    role: "Developer",
+    category: "Startup",
+    description: "Member of the shopping mall development team. Focused on frontend implementation.",
+    techStack: ["JavaScript", "Frontend", "Shopping Mall"],
+  },
+  {
+    id: "6",
+    period: "2013.12 ~ 2015.11",
+    company: "N-OS",
+    role: "Assistant Manager",
+    category: "Agency",
+    description: "Worked as a web agency developer, handling various client projects.",
+    techStack: ["Web Agency", "Client Work", "Maintenance"],
+  },
+];
