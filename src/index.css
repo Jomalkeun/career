@@ -2,11 +2,45 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+body {
+  @apply font-display antialiased;
+  min-height: 100vh;
+  background-color: #F5F5F5;
+  color: #333333;
 }
 
-body {
-  background-color: #f8fafc; /* Slate-50 */
-  color: #1e293b; /* Slate-800 */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.table-container {
+  overflow-x: auto;
+}
+
+.table-container::-webkit-scrollbar {
+  height: 4px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+  background-color: #DCDCDC;
+  border-radius: 10px;
+}
+
+@layer components {
+  .card-surface {
+    @apply bg-white border border-light-gray-border shadow-subtle rounded-2xl;
+  }
+}
+
+.accent-sky {
+  color: #87CEEB;
+}
+.accent-charcoal {
+  color: #4A4A4A;
+}
+.accent-gold {
+  color: #B8860B;
+}
+.accent-sapphire {
+  color: #2F5A91;
 }
