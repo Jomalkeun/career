@@ -3,8 +3,9 @@
 interface CareerToolbarProps {
   globalFilter: string;
   setGlobalFilter: (value: string) => void;
-  viewMode: 'table' | 'card';
-  setViewMode: (mode: 'table' | 'card') => void;
+  viewMode: 'table' | 'card' | 'list';
+  setViewMode: (mode: 'table' | 'card' | 'list') => void;
+  onToggleFilters: () => void;
 }
 
 export const CareerToolbar = ({
@@ -12,6 +13,7 @@ export const CareerToolbar = ({
   setGlobalFilter,
   viewMode,
   setViewMode,
+  onToggleFilters,
 }: CareerToolbarProps) => {
   return (
     <div className="bg-surface-light dark:bg-surface-dark border-b border-border-light dark:border-border-dark px-6 py-4 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 z-40 shadow-[0_1px_2px_0_rgba(0,0,0,0.05)] shrink-0">
@@ -41,13 +43,17 @@ export const CareerToolbar = ({
             </span>
           </button>
         </div>
-        <button className="flex items-center gap-2 px-3 py-2 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors shadow-sm group text-slate-700 dark:text-slate-300">
+        <button 
+          onClick={onToggleFilters}
+          className="flex items-center gap-2 px-3 py-2 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors shadow-sm group text-slate-700 dark:text-slate-300"
+        >
           <span className="material-symbols-outlined text-slate-500 group-hover:text-primary text-[18px] transition-colors">
             filter_list
           </span>
           <span className="text-sm font-medium">Filter</span>
         </button>
-        <button className="flex items-center gap-2 px-3 py-2 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors shadow-sm group text-slate-700 dark:text-slate-300">
+        <button className="flex items-center gap-2 px-3 py-2 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors shadow-sm group text-slate-700 dark:text-slate-300"
+        >
           <span className="material-symbols-outlined text-slate-500 group-hover:text-primary text-[18px] transition-colors">
             sort
           </span>
@@ -55,6 +61,16 @@ export const CareerToolbar = ({
         </button>
         <div className="h-6 w-px bg-slate-300 dark:bg-slate-700 mx-1 hidden lg:block"></div>
         <div className="flex bg-slate-100 dark:bg-slate-800 p-1 rounded-lg border border-slate-200 dark:border-slate-700">
+          <button
+              onClick={() => setViewMode("list")}
+              className={`p-1.5 rounded transition-colors ${
+                viewMode === "list"
+                  ? "bg-white dark:bg-slate-700 shadow-sm text-primary dark:text-primary ring-1 ring-black/5 dark:ring-white/10"
+                  : "text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+              }`}
+            >
+              <span className="material-symbols-outlined text-[20px] block">view_list</span>
+            </button>
           <button
             onClick={() => setViewMode("card")}
             className={`p-1.5 rounded transition-colors ${

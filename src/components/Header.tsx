@@ -16,27 +16,22 @@ export function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-light-gray-border px-6 py-4 flex justify-center items-center">
+    <header className="sticky top-0 z-50 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-light-gray-border dark:border-slate-800 px-6 py-4 flex justify-center items-center transition-colors duration-300">
       <div className="w-full max-w-[1440px] flex justify-between items-center">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-deep-charcoal flex items-center justify-center text-white font-bold text-lg">
-            JS
+          <div className="w-10 h-10 rounded-lg bg-deep-charcoal dark:bg-slate-800 flex items-center justify-center text-white font-bold text-lg">
+            J
           </div>
           <div className="flex flex-col">
-            <span className="font-bold text-deep-charcoal text-xl tracking-tight leading-none">Jane Smith</span>
-            <span className="text-[10px] text-medium-gray font-semibold tracking-widest uppercase">Portfolio Dashboard</span>
+            <span className="font-bold text-deep-charcoal dark:text-white text-xl tracking-tight leading-none">Jo Malk Eun</span>
+            <span className="text-[10px] text-medium-gray dark:text-slate-400 font-semibold tracking-widest uppercase">Portfolio Dashboard</span>
           </div>
         </div>
-        <nav className="hidden md:flex items-center gap-8 text-[11px] font-bold uppercase tracking-widest text-medium-gray">
-          <a className="hover:text-deep-charcoal transition-colors" href="#">Overview</a>
-          <a className="text-deep-charcoal border-b-2 border-primary pb-1" href="#">Projects</a>
-          <a className="hover:text-deep-charcoal transition-colors" href="#">Skills</a>
-          <a className="hover:text-deep-charcoal transition-colors" href="#">Experience</a>
-        </nav>
+  
         <div className="flex items-center gap-4">
-          <button className="px-6 py-2.5 bg-primary text-white text-[10px] font-bold uppercase tracking-widest rounded-full hover:shadow-glow-sapphire transition-all flex items-center gap-2">
+          <button className="p-2.5 md:px-6 md:py-2.5 bg-primary text-white text-[10px] font-bold uppercase tracking-widest rounded-full hover:shadow-glow-sapphire transition-all flex items-center gap-2">
             <span className="material-symbols-outlined text-[16px]">download</span>
-            Download CV
+            <span className="hidden md:inline">Download CV</span>
           </button>
           <button className="p-2 rounded-full text-medium-gray hover:bg-deep-charcoal/5 transition-colors" onClick={toggleTheme}>
             <span className="material-symbols-outlined text-xl">{isDarkMode ? 'light_mode' : 'dark_mode'}</span>

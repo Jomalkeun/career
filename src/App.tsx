@@ -4,8 +4,10 @@ import { useMemo, useState } from 'react';
 import { careerData } from './data/mockData';
 import { getCoreRowModel, getPaginationRowModel, useReactTable, getFilteredRowModel } from '@tanstack/react-table';
 import { CareerToolbar } from './components/CareerToolbar';
+import { CareerFilters } from './components/CareerFilters';
 import { CareerTable } from './components/CareerTable';
 import { CardView } from './components/CardView';
+import { ListView } from './components/ListView';
 import { useCareerColumns } from './hooks/useCareerColumns';
 
 function App() {
@@ -14,7 +16,8 @@ function App() {
     pageSize: 10,
   });
   const [globalFilter, setGlobalFilter] = useState('');
-  const [viewMode, setViewMode] = useState<"table" | "card">("table");
+  const [viewMode, setViewMode] = useState<"table" | "card" | "list">("table");
+  const [showFilters, setShowFilters] = useState(false);
 
   // Filter logic
   const filteredData = useMemo(() => {
@@ -58,31 +61,25 @@ function App() {
             globalFilter={globalFilter} 
             setGlobalFilter={setGlobalFilter} 
             viewMode={viewMode} 
-            setViewMode={setViewMode} 
+            setViewMode={setViewMode}
+            onToggleFilters={() => setShowFilters(!showFilters)}
           />
+          {showFilters && <CareerFilters />}
+
           
           <div className="p-0">
              {viewMode === "table" ? (
               <CareerTable table={table} />
-            ) : (
+            ) : viewMode === "card" ? (
               <div className="p-6">
                   <CardView rows={table.getRowModel().rows} />
               </div>
+            ) : (
+              <div className="p-6">
+                <ListView rows={table.getRowModel().rows} />
+              </div>
             )}
-             <div className="p-4 border-t border-border-light dark:border-border-dark flex flex-col sm:flex-row items-center justify-between gap-4">
-                <span className="text-sm text-slate-500 dark:text-slate-400">
-                  Showing <span className="font-bold text-slate-800 dark:text-slate-200">1-{filteredData.length}</span> of <span className="font-bold text-slate-800 dark:text-slate-200">{careerData.length}</span> projects
-                </span>
-                <div className="flex items-center gap-2">
-                  <button className="px-3 py-1.5 text-sm rounded-lg bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-slate-400 disabled:opacity-50 cursor-not-allowed shadow-sm" disabled>
-                    <span className="material-symbols-outlined text-[16px]">chevron_left</span>
-                  </button>
-                  <button className="px-3 py-1.5 text-sm font-medium rounded-lg bg-primary text-white shadow-sm ring-2 ring-primary ring-offset-2 dark:ring-offset-slate-900">1</button>
-                  <button className="px-3 py-1.5 text-sm rounded-lg bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 shadow-sm transition-colors">
-                    <span className="material-symbols-outlined text-[16px]">chevron_right</span>
-                  </button>
-                </div>
-            </div>
+
           </div>
         </section>
       </main>

@@ -22,7 +22,7 @@ export default {
         "soft-gold": "#B8860B"
       },
       fontFamily: {
-        "display": ["Public Sans", "sans-serif"]
+        "display": ["Public Sans", "Nanum Gothic Coding", "sans-serif"]
       },
       borderRadius: {
         "DEFAULT": "0.25rem", 

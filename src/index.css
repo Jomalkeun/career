@@ -2,10 +2,15 @@
 @config "../tailwind.config.js";
 
 body {
-  @apply font-display antialiased;
+  @apply font-display antialiased transition-colors duration-300;
   min-height: 100vh;
-  background-color: #F5F5F5;
+  background-color: #f5f5f5;
   color: #333333;
+}
+
+:root[class~="dark"] body {
+  background-color: #0f172a; /* slate-900 */
+  color: #f3f4f6; /* gray-100 */
 }
 
 .scrollbar-hide::-webkit-scrollbar {
@@ -21,25 +26,25 @@ body {
 }
 
 .table-container::-webkit-scrollbar-thumb {
-  background-color: #DCDCDC;
+  background-color: #dcdcdc;
   border-radius: 10px;
 }
 
 @layer components {
   .card-surface {
-    @apply bg-white border border-light-gray-border shadow-subtle rounded-2xl;
+    @apply bg-white dark:bg-slate-800 border border-light-gray-border dark:border-slate-700 shadow-subtle rounded-2xl transition-colors duration-300;
   }
 }
 
 .accent-sky {
-  color: #87CEEB;
+  color: #87ceeb;
 }
 .accent-charcoal {
-  color: #4A4A4A;
+  color: #4a4a4a;
 }
 .accent-gold {
-  color: #B8860B;
+  color: #b8860b;
 }
 .accent-sapphire {
-  color: #2F5A91;
+  color: #2f5a91;
 }

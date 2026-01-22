@@ -14,11 +14,11 @@ export function StatsCard({ icon, label, value, accent }: StatsCardProps) {
 
   return (
     <div className={`card-surface p-6 flex flex-col items-center justify-center group transition-colors ${accentClasses[accent]}`}>
-      <span className="material-symbols-outlined text-medium-gray group-hover:text-inherit text-3xl mb-2 transition-all">
+      <span className="material-symbols-outlined text-medium-gray dark:text-slate-400 group-hover:text-inherit text-3xl mb-2 transition-all">
         {icon}
       </span>
-      <div className="text-3xl font-bold text-deep-charcoal tracking-tight">{value}</div>
-      <div className="text-[9px] uppercase tracking-widest text-medium-gray font-bold mt-1">{label}</div>
+      <div className="text-3xl font-bold text-deep-charcoal dark:text-white tracking-tight">{value}</div>
+      <div className="text-[9px] uppercase tracking-widest text-medium-gray dark:text-slate-400 font-bold mt-1">{label}</div>
     </div>
   );
 }

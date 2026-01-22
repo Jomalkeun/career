@@ -96,21 +96,7 @@ export const CareerBoard = () => {
           <CardView rows={table.getRowModel().rows} />
         )}
         
-        <div className="mt-4 flex flex-col sm:flex-row items-center justify-between gap-4 px-2">
-            <span className="text-sm text-slate-500 dark:text-slate-400">
-              Showing <span className="font-bold text-slate-800 dark:text-slate-200">1-{filteredData.length}</span> of <span className="font-bold text-slate-800 dark:text-slate-200">{careerData.length}</span> projects
-            </span>
-            <div className="flex items-center gap-2">
-              <button className="px-3 py-1.5 text-sm rounded-lg bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-slate-400 disabled:opacity-50 cursor-not-allowed shadow-sm" disabled>
-                <span className="material-symbols-outlined text-[16px]">chevron_left</span>
-              </button>
-              <button className="px-3 py-1.5 text-sm font-medium rounded-lg bg-primary text-white shadow-sm ring-2 ring-primary ring-offset-2 dark:ring-offset-slate-900">1</button>
-               {/* Pagination placeholders - implementing full pagination not requested but kept UI structure */}
-              <button className="px-3 py-1.5 text-sm rounded-lg bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 shadow-sm transition-colors">
-                <span className="material-symbols-outlined text-[16px]">chevron_right</span>
-              </button>
-            </div>
-        </div>
+
       </div>
     </div>
   );
