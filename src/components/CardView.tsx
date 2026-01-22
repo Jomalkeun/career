@@ -18,7 +18,7 @@ export const CardView = ({ rows }: CardViewProps) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {rows.map((row) => {
-        const { period, company, role, description, techStack } = row.original;
+        const { period = "", company, role, description, techStack } = row.original;
         return (
           <div
             key={row.id}

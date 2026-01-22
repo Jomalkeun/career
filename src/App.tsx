@@ -6,8 +6,9 @@ import { Filters } from './components/Filters';
 import { ProjectsTable } from './components/ProjectsTable';
 import { useMemo, useState } from 'react';
 import { careerData } from './data/mockData';
-import { Career } from './types';
-import { ColumnDef, getCoreRowModel, getPaginationRowModel, useReactTable, getFilteredRowModel } from '@tanstack/react-table';
+import type { Career } from './types';
+import { getCoreRowModel, getPaginationRowModel, useReactTable, getFilteredRowModel } from '@tanstack/react-table';
+import type { ColumnDef } from '@tanstack/react-table';
 
 function App() {
   const [pagination, setPagination] = useState({
