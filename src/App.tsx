@@ -2,106 +2,74 @@ import { Header } from './components/Header';
 import { ProfileCard } from './components/ProfileCard';
 import { StatsCard } from './components/StatsCard';
 import { SkillsCard } from './components/SkillsCard';
-import { Filters } from './components/Filters';
-import { ProjectsTable } from './components/ProjectsTable';
 import { useMemo, useState } from 'react';
 import { careerData } from './data/mockData';
 import type { Career } from './types';
 import { getCoreRowModel, getPaginationRowModel, useReactTable, getFilteredRowModel } from '@tanstack/react-table';
 import type { ColumnDef } from '@tanstack/react-table';
+import { CareerToolbar } from './components/CareerToolbar';
+import { CareerTable } from './components/CareerTable';
+import { CardView } from './components/CardView';
 
 function App() {
   const [pagination, setPagination] = useState({
-    pageIndex: 0, //initial page index
-    pageSize: 5, //default page size
+    pageIndex: 0, 
+    pageSize: 10,
   });
   const [globalFilter, setGlobalFilter] = useState('');
+  const [viewMode, setViewMode] = useState<"table" | "card">("table");
+
+  // Filter logic similar to CareerBoard
+  const filteredData = useMemo(() => {
+    let data = careerData;
+    if (globalFilter) {
+      const lowerFilter = globalFilter.toLowerCase();
+      data = data.filter((item) =>
+        Object.values(item).some(
+          (val) =>
+            typeof val === "string" && val.toLowerCase().includes(lowerFilter)
+        )
+      );
+    }
+    return data;
+  }, [globalFilter]);
 
   const columns = useMemo<ColumnDef<Career>[]>(
-    () => [
-      {
-        accessorKey: 'projectName',
-        header: 'Project Name',
-        cell: (info) => {
-          const { original } = info.row;
-          return (
-            <div className="flex items-center">
-              <div className="flex-shrink-0 h-10 w-10 rounded-lg bg-white border border-light-gray-border flex items-center justify-center mr-4 group-hover:border-primary transition-colors">
-                <span className="material-symbols-outlined text-xl text-medium-gray group-hover:text-primary">
-                  {original.icon || 'dashboard'}
-                </span>
-              </div>
-              <div>
-                <div className="text-sm font-bold text-deep-charcoal tracking-tight">{original.projectName}</div>
-                <div className="text-[9px] font-bold text-medium-gray uppercase">{original.projectType}</div>
-              </div>
-            </div>
-          );
-        }
-      },
-      {
-        accessorKey: 'duration',
-        header: 'Duration',
-        cell: (info) => {
-            const { original } = info.row;
-            return (
-                <div>
-                    <div className="text-xs font-medium text-deep-charcoal">{original.duration}</div>
-                    <div className="text-[9px] text-medium-gray">{original.durationInMonths} Mos</div>
-                </div>
-            )
-        }
-      },
-      {
-        accessorKey: 'client',
-        header: 'Client',
-      },
-      {
-        accessorKey: 'company',
-        header: 'Company',
-        cell: (info) => (
-            <span className="px-2 py-0.5 inline-flex text-[9px] font-bold uppercase tracking-widest rounded bg-silver-bg text-medium-gray border border-light-gray-border">
-                {info.getValue() as string}
-            </span>
-        )
-      },
-      {
-        accessorKey: 'role',
-        header: 'Role',
-        cell: (info) => {
-            const { original } = info.row;
-            return (
-                <div className="flex items-center gap-2 text-xs text-medium-gray">
-                    <span className={`w-1.5 h-1.5 rounded-full ${original.roleType === 'lead' ? 'bg-sky-blue' : 'bg-light-gray-border'}`}></span>
-                    {info.getValue() as string}
-                </div>
-            )
-        }
-      },
-      {
-        accessorKey: 'osEnv',
-        header: 'OS/Env',
-        cell: info => <div className="text-[9px] font-bold text-medium-gray/60 uppercase tracking-widest">{info.getValue() as string}</div>
-      },
-      {
-        accessorKey: 'techStack',
-        header: 'Tech Stack',
-        cell: (info) => (
-          <div className="flex flex-wrap gap-2">
-            {(info.getValue() as string[]).map((tech) => (
-              <span key={tech} className="px-2 py-0.5 rounded text-[8px] font-bold bg-white border border-light-gray-border text-medium-gray uppercase">
-                {tech}
-              </span>
-            ))}
-          </div>
-        ),
-      },
-    ],
-    []
-  );
+      () => [
+        {
+          accessorKey: "period",
+          header: "Period",
+          cell: (info) => <span className="whitespace-nowrap font-medium text-gray-700">{info.getValue() as string}</span>,
+        },
+        {
+          accessorKey: "company",
+          header: "Company",
+          cell: (info) => <span className="font-bold text-gray-900">{info.getValue() as string}</span>,
+        },
+        {
+          accessorKey: "role",
+          header: "Role",
+          cell: (info) => <span className="text-blue-600">{info.getValue() as string}</span>,
+        },
+        {
+          accessorKey: "category",
+          header: "Category",
+        },
+        {
+          accessorKey: "description",
+          header: "Description",
+          cell: (info) => <span className="text-gray-600 block min-w-[300px]">{info.getValue() as string}</span>,
+        },
+        {
+          accessorKey: "techStack",
+          header: "Tech Stack",
+        },
+      ],
+      []
+    );
 
   const table = useReactTable({
-    data: careerData,
+    data: filteredData,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
@@ -115,7 +83,7 @@ function App() {
   });
 
   return (
-    <div className="font-display antialiased">
+    <div className="font-display antialiased bg-background-light dark:bg-background-dark min-h-screen">
       <Header />
       <main className="px-6 py-8 space-y-8 max-w-[1440px] mx-auto">
         <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
@@ -131,9 +99,38 @@ function App() {
             <SkillsCard />
           </div>
         </section>
-        <section className="space-y-6">
-          <Filters globalFilter={globalFilter} setGlobalFilter={setGlobalFilter} />
-          <ProjectsTable table={table} />
+        
+        <section className="space-y-0 rounded-xl overflow-hidden border border-border-light dark:border-border-dark shadow-sm bg-surface-light dark:bg-surface-dark">
+          <CareerToolbar 
+            globalFilter={globalFilter} 
+            setGlobalFilter={setGlobalFilter} 
+            viewMode={viewMode} 
+            setViewMode={setViewMode} 
+          />
+          
+          <div className="p-0">
+             {viewMode === "table" ? (
+              <CareerTable table={table} />
+            ) : (
+              <div className="p-6">
+                  <CardView rows={table.getRowModel().rows} />
+              </div>
+            )}
+             <div className="p-4 border-t border-border-light dark:border-border-dark flex flex-col sm:flex-row items-center justify-between gap-4">
+                <span className="text-sm text-slate-500 dark:text-slate-400">
+                  Showing <span className="font-bold text-slate-800 dark:text-slate-200">1-{filteredData.length}</span> of <span className="font-bold text-slate-800 dark:text-slate-200">{careerData.length}</span> projects
+                </span>
+                <div className="flex items-center gap-2">
+                  <button className="px-3 py-1.5 text-sm rounded-lg bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-slate-400 disabled:opacity-50 cursor-not-allowed shadow-sm" disabled>
+                    <span className="material-symbols-outlined text-[16px]">chevron_left</span>
+                  </button>
+                  <button className="px-3 py-1.5 text-sm font-medium rounded-lg bg-primary text-white shadow-sm ring-2 ring-primary ring-offset-2 dark:ring-offset-slate-900">1</button>
+                  <button className="px-3 py-1.5 text-sm rounded-lg bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 shadow-sm transition-colors">
+                    <span className="material-symbols-outlined text-[16px]">chevron_right</span>
+                  </button>
+                </div>
+            </div>
+          </div>
         </section>
       </main>
     </div>

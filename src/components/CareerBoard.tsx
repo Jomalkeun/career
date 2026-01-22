@@ -8,31 +8,15 @@ import { useMemo, useState } from "react";
 import { careerData } from "../data/mockData";
 import type { Career } from "../types";
 import { CardView } from "./CardView";
-import { TableView } from "./TableView";
-import { TagFilter } from "./TagFilter";
-import { ViewToggle } from "./ViewToggle";
-import { Search } from "lucide-react";
-import { Badge } from "./ui/Badge";
+import { CareerHeader } from "./CareerHeader";
+import { CareerToolbar } from "./CareerToolbar";
+import { CareerTable } from "./CareerTable";
 
 export const CareerBoard = () => {
-  const [viewMode, setViewMode] = useState<"table" | "card">("card"); // Default to Card view for visual impact
+  const [viewMode, setViewMode] = useState<"table" | "card">("table"); 
   const [globalFilter, setGlobalFilter] = useState("");
-  const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
-  // Calculate all unique tags from data
-  const allTags = useMemo(() => {
-    const tags = new Set<string>();
-    careerData.forEach((item) => item.techStack.forEach((tag) => tags.add(tag)));
-    return Array.from(tags).sort();
-  }, []);
-
-  const handleToggleTag = (tag: string) => {
-    setSelectedTags((prev) =>
-      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
-    );
-  };
-
-  // Custom filter logic to handle both search text and tag selection
+  // Custom filter logic to handle search text
   const filteredData = useMemo(() => {
     let data = careerData;
 
@@ -47,15 +31,8 @@ export const CareerBoard = () => {
       );
     }
 
-    // Filter by Selected Tags
-    if (selectedTags.length > 0) {
-      data = data.filter((item) =>
-        selectedTags.every((tag) => item.techStack.includes(tag))
-      );
-    }
-
     return data;
-  }, [globalFilter, selectedTags]);
+  }, [globalFilter]);
 
   const columns = useMemo<ColumnDef<Career>[]>(
     () => [
@@ -86,15 +63,6 @@ export const CareerBoard = () => {
       {
         accessorKey: "techStack",
         header: "Tech Stack",
-        cell: (info) => (
-          <div className="flex flex-wrap gap-1">
-            {(info.getValue() as string[]).map((tag) => (
-              <Badge key={tag} variant="secondary">
-                {tag}
-              </Badge>
-            ))}
-          </div>
-        ),
       },
     ],
     []
@@ -108,47 +76,41 @@ export const CareerBoard = () => {
   });
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        {/* Search Bar */}
-        <div className="relative w-full md:w-96">
-          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <Search className="h-5 w-5 text-gray-400" />
-          </div>
-          <input
-            type="text"
-            className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-shadow shadow-sm"
-            placeholder="Search company, role, or stack..."
-            value={globalFilter}
-            onChange={(e) => setGlobalFilter(e.target.value)}
-          />
-        </div>
+    <div className="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased min-h-screen flex flex-col overflow-hidden">
+      {/* Navigation */}
+      <CareerHeader />
 
-        {/* View Toggle */}
-        <ViewToggle viewMode={viewMode} onToggle={setViewMode} />
-      </div>
+      {/* Toolbar */}
+      <CareerToolbar 
+        globalFilter={globalFilter} 
+        setGlobalFilter={setGlobalFilter} 
+        viewMode={viewMode} 
+        setViewMode={setViewMode} 
+      />
 
-      {/* Tag Filters */}
-      <div>
-        <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-2">Filter by Tech Stack</h3>
-        <TagFilter
-          allTags={allTags}
-          selectedTags={selectedTags}
-          onToggleTag={handleToggleTag}
-        />
-      </div>
-
-      {/* Content Area */}
-      <div className="min-h-[400px]">
+      {/* Main Content Area */}
+      <div className="flex-1 overflow-auto bg-background-light dark:bg-background-dark p-6">
         {viewMode === "table" ? (
-          <TableView table={table} />
+          <CareerTable table={table} />
         ) : (
           <CardView rows={table.getRowModel().rows} />
         )}
-      </div>
-
-      <div className="text-xs text-gray-400 text-right">
-        Showing {filteredData.length} records
+        
+        <div className="mt-4 flex flex-col sm:flex-row items-center justify-between gap-4 px-2">
+            <span className="text-sm text-slate-500 dark:text-slate-400">
+              Showing <span className="font-bold text-slate-800 dark:text-slate-200">1-{filteredData.length}</span> of <span className="font-bold text-slate-800 dark:text-slate-200">{careerData.length}</span> projects
+            </span>
+            <div className="flex items-center gap-2">
+              <button className="px-3 py-1.5 text-sm rounded-lg bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-slate-400 disabled:opacity-50 cursor-not-allowed shadow-sm" disabled>
+                <span className="material-symbols-outlined text-[16px]">chevron_left</span>
+              </button>
+              <button className="px-3 py-1.5 text-sm font-medium rounded-lg bg-primary text-white shadow-sm ring-2 ring-primary ring-offset-2 dark:ring-offset-slate-900">1</button>
+               {/* Pagination placeholders - implementing full pagination not requested but kept UI structure */}
+              <button className="px-3 py-1.5 text-sm rounded-lg bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 shadow-sm transition-colors">
+                <span className="material-symbols-outlined text-[16px]">chevron_right</span>
+              </button>
+            </div>
+        </div>
       </div>
     </div>
   );

@@ -5,7 +5,14 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: "#2F5A91", // Muted Sapphire Blue
+        "primary": "#197fe6",
+        "background-light": "#f6f7f8",
+        "background-dark": "#111921",
+        "surface-light": "#ffffff",
+        "surface-dark": "#1e2936",
+        "border-light": "#e2e8f0",
+        "border-dark": "#334155",
+        // Keeping previous colors for backward compatibility if needed, though they might be replaced eventually
         "silver-bg": "#F5F5F5",
         "light-gray-border": "#DCDCDC",
         "deep-charcoal": "#333333",
@@ -15,13 +22,13 @@ export default {
         "soft-gold": "#B8860B"
       },
       fontFamily: {
-        display: "Inter, sans-serif"
+        "display": ["Public Sans", "sans-serif"]
       },
       borderRadius: {
-        DEFAULT: "0.5rem",
-        lg: "0.75rem",
-        xl: "1rem",
-        full: "9999px"
+        "DEFAULT": "0.25rem", 
+        "lg": "0.5rem", 
+        "xl": "0.75rem", 
+        "full": "9999px"
       },
       boxShadow: {
         'glow-sapphire': "0 0 15px rgba(47, 90, 145, 0.3)",
