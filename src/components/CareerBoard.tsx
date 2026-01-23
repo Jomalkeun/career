@@ -5,7 +5,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
-import { careerData } from "../data/mockData";
+import { careerData } from "../data/careerData";
 import type { Career } from "../types";
 import { CardView } from "./CardView";
 import { CareerHeader } from "./CareerHeader";
@@ -13,7 +13,7 @@ import { CareerToolbar } from "./CareerToolbar";
 import { CareerTable } from "./CareerTable";
 
 export const CareerBoard = () => {
-  const [viewMode, setViewMode] = useState<"table" | "card">("table"); 
+  const [viewMode, setViewMode] = useState<"table" | "card">("table");
   const [globalFilter, setGlobalFilter] = useState("");
 
   // Custom filter logic to handle search text
@@ -81,11 +81,11 @@ export const CareerBoard = () => {
       <CareerHeader />
 
       {/* Toolbar */}
-      <CareerToolbar 
-        globalFilter={globalFilter} 
-        setGlobalFilter={setGlobalFilter} 
-        viewMode={viewMode} 
-        setViewMode={setViewMode} 
+      <CareerToolbar
+        globalFilter={globalFilter}
+        setGlobalFilter={setGlobalFilter}
+        viewMode={viewMode}
+        setViewMode={setViewMode}
       />
 
       {/* Main Content Area */}
@@ -95,7 +95,7 @@ export const CareerBoard = () => {
         ) : (
           <CardView rows={table.getRowModel().rows} />
         )}
-        
+
 
       </div>
     </div>

@@ -1,7 +1,7 @@
 import { Header } from './components/Header';
 import { ProfileSection } from './components/ProfileSection';
 import { useMemo, useState } from 'react';
-import { careerData } from './data/mockData';
+import { careerData } from './data/careerData';
 import { getCoreRowModel, getPaginationRowModel, useReactTable, getFilteredRowModel } from '@tanstack/react-table';
 import { CareerToolbar } from './components/CareerToolbar';
 import { CareerFilters } from './components/CareerFilters';
@@ -12,7 +12,7 @@ import { useCareerColumns } from './hooks/useCareerColumns';
 
 function App() {
   const [pagination, setPagination] = useState({
-    pageIndex: 0, 
+    pageIndex: 0,
     pageSize: 10,
   });
   const [globalFilter, setGlobalFilter] = useState('');
@@ -55,24 +55,24 @@ function App() {
       <Header />
       <main className="px-6 py-8 space-y-8 max-w-[1440px] mx-auto">
         <ProfileSection />
-        
+
         <section className="space-y-0 rounded-xl overflow-hidden border border-border-light dark:border-border-dark shadow-sm bg-surface-light dark:bg-surface-dark">
-          <CareerToolbar 
-            globalFilter={globalFilter} 
-            setGlobalFilter={setGlobalFilter} 
-            viewMode={viewMode} 
+          <CareerToolbar
+            globalFilter={globalFilter}
+            setGlobalFilter={setGlobalFilter}
+            viewMode={viewMode}
             setViewMode={setViewMode}
             onToggleFilters={() => setShowFilters(!showFilters)}
           />
           {showFilters && <CareerFilters />}
 
-          
+
           <div className="p-0">
-             {viewMode === "table" ? (
+            {viewMode === "table" ? (
               <CareerTable table={table} />
             ) : viewMode === "card" ? (
               <div className="p-6">
-                  <CardView rows={table.getRowModel().rows} />
+                <CardView rows={table.getRowModel().rows} />
               </div>
             ) : (
               <div className="p-6">
