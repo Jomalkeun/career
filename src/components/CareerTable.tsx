@@ -27,22 +27,22 @@ export const CareerTable = ({ table }: CareerTableProps) => {
     <>
       <div className="flex-1 overflow-x-auto custom-scrollbar relative">
         <table className="min-w-full divide-y divide-slate-200 dark:divide-slate-700 text-sm">
-          <CareerTableHeader />
+          <CareerTableHeader table={table} />
           <tbody className="divide-y divide-slate-200 dark:divide-slate-700 bg-white dark:bg-surface-dark">
             {table.getRowModel().rows.map((row) => (
-              <CareerTableRow 
-                key={row.id} 
-                career={row.original} 
-                onOpenModal={handleOpenModal} 
+              <CareerTableRow
+                key={row.id}
+                career={row.original}
+                onOpenModal={handleOpenModal}
               />
             ))}
           </tbody>
         </table>
       </div>
-      <ProjectDetailsModal 
-        isOpen={isModalOpen} 
-        onClose={handleCloseModal} 
-        project={selectedProject} 
+      <ProjectDetailsModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        project={selectedProject}
       />
     </>
   );

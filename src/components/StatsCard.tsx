@@ -13,7 +13,7 @@ export function StatsCard({ icon, label, value, accent }: StatsCardProps) {
   };
 
   return (
-    <div className={`card-surface p-6 flex flex-col items-center justify-center group transition-colors ${accentClasses[accent]}`}>
+    <div className={`card-surface p-6 flex flex-col items-center justify-center group transition-colors h-full flex-1 ${accentClasses[accent]}`}>
       <span className="material-symbols-outlined text-medium-gray dark:text-slate-400 group-hover:text-inherit text-3xl mb-2 transition-all">
         {icon}
       </span>

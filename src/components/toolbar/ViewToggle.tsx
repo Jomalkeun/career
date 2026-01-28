@@ -17,11 +17,11 @@ export const ViewToggle = ({ viewMode, setViewMode }: ViewToggleProps) => {
         <button
           key={mode.id}
           onClick={() => setViewMode(mode.id)}
-          className={`p-1.5 rounded transition-colors ${
-            viewMode === mode.id
+          className={`p-1.5 rounded transition-colors ${mode.id === 'table' ? 'hidden lg:inline-block' : ''
+            } ${viewMode === mode.id
               ? "bg-white dark:bg-slate-700 shadow-sm text-primary dark:text-primary ring-1 ring-black/5 dark:ring-white/10"
               : "text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
-          }`}
+            }`}
         >
           <span className="material-symbols-outlined text-[20px] block">{mode.icon}</span>
         </button>
