@@ -1,5 +1,4 @@
 import type { Career } from "../types";
-import { Badge } from "./ui/Badge";
 
 interface ProjectCardProps {
   career: Career;
@@ -7,13 +6,36 @@ interface ProjectCardProps {
 
 export const ProjectCard = ({ career }: ProjectCardProps) => {
   const { period = "", company, role, description, techStack, projectName, durationInMonths, client } = career;
-  
+
+  // Extract all techs from categorized structure
+  let allTechs: string[] = [];
+  if (Array.isArray(techStack)) {
+    allTechs = techStack;
+  } else {
+    // Assuming techStack is an object if not an array
+    allTechs = [
+      ...(techStack.language || []),
+      ...(techStack.scripts || []),
+      ...(techStack.framework || []),
+      ...(techStack.designTool || []),
+      ...(techStack.stylesheet || []),
+      ...(techStack.library || []),
+      ...(techStack.versionControl || []),
+      ...(techStack.other || []),
+    ];
+
+    // Add boolean flags as tags
+    if (techStack.responsiveWeb) allTechs.push("반응형웹");
+    if (techStack.accessibility) allTechs.push("웹접근성");
+    if (techStack.multilingual) allTechs.push("다국어");
+  }
+
   // Random color selection for the left border strip, or deterministically based on id/name
   const colors = ['bg-primary', 'bg-indigo-500', 'bg-teal-500', 'bg-purple-500', 'bg-rose-500', 'bg-amber-500'];
   // Simple deterministic pick
   const colorIndex = (projectName || role).length % colors.length;
   const stripColor = colors[colorIndex];
-  
+
   // Text color mapping for role/subtitle based on strip color approximation
   const textColorMap: Record<string, string> = {
     'bg-primary': 'text-primary',
@@ -52,7 +74,7 @@ export const ProjectCard = ({ career }: ProjectCardProps) => {
       <div className="pl-2 mb-3">
         <div className="flex items-center gap-2 text-xs text-text-muted-light dark:text-text-muted-dark mb-2">
           <span className="flex items-center gap-1">
-            <span className="material-symbols-outlined text-[14px]">business</span> 
+            <span className="material-symbols-outlined text-[14px]">business</span>
             {client || company}
           </span>
           <span className="w-1 h-1 bg-gray-300 rounded-full"></span>
@@ -63,8 +85,8 @@ export const ProjectCard = ({ career }: ProjectCardProps) => {
         </p>
       </div>
       <div className="pl-2 flex flex-wrap gap-1.5 mt-3 pt-3 border-t border-gray-100 dark:border-gray-700 border-dashed">
-        {techStack.map((tech) => (
-          <span key={tech} className={`px-2 py-0.5 rounded text-[10px] font-medium ${badgeClass}`}>
+        {allTechs.map((tech, idx) => (
+          <span key={`${tech}-${idx}`} className={`px-2 py-0.5 rounded text-[10px] font-medium ${badgeClass}`}>
             {tech}
           </span>
         ))}

@@ -60,15 +60,44 @@ export const useCareerColumns = () => {
       {
         accessorKey: "techStack",
         header: "사용기술",
-        cell: (info) => (
-          <div className="flex flex-wrap gap-1.5">
-            {(info.getValue() as string[]).map((tech) => (
-              <span key={tech} className="px-2 py-1 text-xs rounded border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
-                {tech}
-              </span>
-            ))}
-          </div>
-        ),
+        cell: (info) => {
+          const techStack = info.getValue();
+          let allTechs: string[] = [];
+
+          // Handle both old array format and new object format
+          if (Array.isArray(techStack)) {
+            allTechs = techStack;
+          } else {
+            const stack = techStack as any;
+
+            // Combine all tech arrays
+            allTechs = [
+              ...(stack.language || []),
+              ...(stack.scripts || []),
+              ...(stack.framework || []),
+              ...(stack.designTool || []),
+              ...(stack.stylesheet || []),
+              ...(stack.library || []),
+              ...(stack.versionControl || []),
+              ...(stack.other || []),
+            ];
+
+            // Add boolean flags as tags
+            if (stack.responsiveWeb) allTechs.push("반응형웹");
+            if (stack.accessibility) allTechs.push("웹접근성");
+            if (stack.multilingual) allTechs.push("다국어");
+          }
+
+          return (
+            <div className="flex flex-wrap gap-1.5">
+              {allTechs.map((tech, idx) => (
+                <span key={`${tech}-${idx}`} className="px-2 py-1 text-xs rounded border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                  {tech}
+                </span>
+              ))}
+            </div>
+          );
+        },
         enableSorting: false,
       },
     ],

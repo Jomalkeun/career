@@ -1,25 +1,7 @@
 import { useState } from 'react';
 import { SkillsDetailModal } from './SkillsDetailModal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faHtml5,
-  faCss3Alt,
-  faJs,
-  faVuejs,
-  faSass,
-  faAngular,
-  faBootstrap,
-  faGitAlt,
-  faGithub,
-  faGulp,
-  faJenkins,
-  faNode,
-  faNpm,
-  faReact,
-  faTrello,
-  faWordpress
-} from '@fortawesome/free-brands-svg-icons';
-import { faCode, faComputer } from '@fortawesome/free-solid-svg-icons';
+import { getCardSkills, getLevelText } from '../data/skillsData';
 
 interface SkillsCardProps {
   selectedTech: string | null;
@@ -29,29 +11,8 @@ interface SkillsCardProps {
 export function SkillsCard({ selectedTech, onSelectTech }: SkillsCardProps) {
   const [isOpen, setIsOpen] = useState(false);
 
-  const topSkills = [
-    { name: 'HTML5', level: 'Expert', icon: faHtml5, color: '#E34F26' },
-    { name: 'CSS3', level: 'Expert', icon: faCss3Alt, color: '#1572B6' },
-    { name: 'JavaScript', level: 'Advanced', icon: faJs, color: '#F7DF1E' },
-    { name: 'Vue.js', level: 'Expert', icon: faVuejs, color: '#4FC08D' },
-    { name: 'Sass/SCSS', level: 'Expert', icon: faSass, color: '#CC6699' },
-    { name: 'Angular', level: 'Advanced', icon: faAngular, color: '#E34F26' },
-    { name: 'bootstrap', level: 'Expert', icon: faBootstrap, color: '#CC6699' },
-    { name: 'Git', level: 'Expert', icon: faGitAlt, color: '#E34F26' },
-    { name: 'Github', level: 'Expert', icon: faGithub, color: '#E34F26' },
-    { name: 'Gulp', level: 'Expert', icon: faGulp, color: '#E34F26' },
-    { name: 'Jenkins', level: 'Expert', icon: faJenkins, color: '#E34F26' },
-    { name: 'Node.js', level: 'Expert', icon: faNode, color: '#F7DF1E' },
-    { name: 'Npm', level: 'Expert', icon: faNpm, color: '#E34F26' },
-    { name: 'React.js', level: 'Expert', icon: faReact, color: '#61DAFB' },
-    { name: 'Next.js', level: 'Expert', icon: faJs, color: '#61DAFB' },
-    { name: 'Tailwind', level: 'Expert', icon: faCode, color: '#61DAFB' },
-    { name: 'Storybook', level: 'Expert', icon: faSass, color: '#CC6699' },
-    { name: 'Trello', level: 'Expert', icon: faTrello, color: '#CC6699' },
-    { name: 'Wordpress', level: 'Expert', icon: faWordpress, color: '#CC6699' },
-    { name: 'Svn', level: 'Expert', icon: faCode, color: '#CC6699' },
-    { name: 'Panda.css', level: 'Expert', icon: faComputer, color: '#CC6699' },
-  ];
+  // Get only skills that should be shown in the card
+  const topSkills = getCardSkills();
 
   const handleTechClick = (techName: string) => {
     if (selectedTech === techName) {
@@ -86,10 +47,16 @@ export function SkillsCard({ selectedTech, onSelectTech }: SkillsCardProps) {
                   ? 'border-primary bg-primary/5 dark:bg-primary/10 ring-2 ring-primary/20 scale-[1.02]'
                   : 'border-slate-100 dark:border-slate-700 hover:border-primary/30 hover:scale-[1.02] shadow-sm hover:shadow-md'}`}
             >
-              <FontAwesomeIcon icon={skill.icon} className="text-3xl mb-1" style={{ color: skill.color }} />
+              {skill.icon ? (
+                <FontAwesomeIcon icon={skill.icon} className="text-3xl mb-1" style={{ color: skill.color }} />
+              ) : skill.iconText ? (
+                <div className="text-3xl mb-1 font-bold" style={{ color: skill.color }}>
+                  {skill.iconText}
+                </div>
+              ) : null}
               <div className="text-center">
                 <div className="font-bold text-slate-900 dark:text-white text-sm">{skill.name}</div>
-                <div className="text-[10px] text-slate-500 dark:text-slate-400">{skill.level}</div>
+                <div className="text-[10px] text-slate-500 dark:text-slate-400">{getLevelText(skill.level)}</div>
               </div>
             </button>
           ))}
@@ -103,4 +70,3 @@ export function SkillsCard({ selectedTech, onSelectTech }: SkillsCardProps) {
     </>
   );
 }
-

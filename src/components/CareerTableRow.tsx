@@ -48,11 +48,34 @@ export const CareerTableRow = ({ career, onOpenModal }: CareerTableRowProps) => 
         </td>
         <td className="px-6 py-4 whitespace-nowrap">
           <div className="flex gap-1.5">
-            {career.techStack.map((tech) => (
-              <span key={tech} className="px-2 py-1 text-xs rounded border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
-                {tech}
-              </span>
-            ))}
+            {(() => {
+              let allTechs: string[] = [];
+              if (Array.isArray(career.techStack)) {
+                allTechs = career.techStack;
+              } else {
+                const stack = career.techStack;
+                allTechs = [
+                  ...(stack.language || []),
+                  ...(stack.scripts || []),
+                  ...(stack.framework || []),
+                  ...(stack.designTool || []),
+                  ...(stack.stylesheet || []),
+                  ...(stack.library || []),
+                  ...(stack.versionControl || []),
+                  ...(stack.other || []),
+                ];
+
+                if (stack.responsiveWeb) allTechs.push("반응형웹");
+                if (stack.accessibility) allTechs.push("웹접근성");
+                if (stack.multilingual) allTechs.push("다국어");
+              }
+
+              return allTechs.map((tech, idx) => (
+                <span key={`${tech}-${idx}`} className="px-2 py-1 text-xs rounded border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                  {tech}
+                </span>
+              ));
+            })()}
           </div>
         </td>
       </tr>

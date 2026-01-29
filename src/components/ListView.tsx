@@ -30,7 +30,7 @@ export const ListView = ({ rows }: ListViewProps) => {
 
     rows.forEach((row) => {
       const career = row.original;
-      
+
       // Check if we can continue with the current group (same company)
       if (currentGroup && currentGroup.company === career.company) {
         currentGroup.projects.push(career);
@@ -92,10 +92,10 @@ export const ListView = ({ rows }: ListViewProps) => {
   return (
     <main className="max-w-md mx-auto px-4 pb-24 relative">
       <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-0.5 bg-slate-200 dark:bg-slate-700 opacity-50"></div>
-      
+
       {groups.map((group, index) => {
         const style = getGroupStyle(index);
-        
+
         return (
           <div key={group.id} className="relative mb-16">
             <div className="flex flex-col items-center mb-10">
@@ -126,11 +126,33 @@ export const ListView = ({ rows }: ListViewProps) => {
                       {project.description}
                     </p>
                     <div className="flex flex-wrap gap-2">
-                      {project.techStack.map(tech => (
-                        <span key={tech} className="px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-[10px] font-medium rounded-md">
-                          {tech}
-                        </span>
-                      ))}
+                      {(() => {
+                        let allTechs: string[] = [];
+                        if (Array.isArray(project.techStack)) {
+                          allTechs = project.techStack;
+                        } else {
+                          allTechs = [
+                            ...(project.techStack.language || []),
+                            ...(project.techStack.scripts || []),
+                            ...(project.techStack.framework || []),
+                            ...(project.techStack.designTool || []),
+                            ...(project.techStack.stylesheet || []),
+                            ...(project.techStack.library || []),
+                            ...(project.techStack.versionControl || []),
+                            ...(project.techStack.other || []),
+                          ];
+
+                          if (project.techStack.responsiveWeb) allTechs.push("반응형웹");
+                          if (project.techStack.accessibility) allTechs.push("웹접근성");
+                          if (project.techStack.multilingual) allTechs.push("다국어");
+                        }
+
+                        return allTechs.map((tech, idx) => (
+                          <span key={`${tech}-${idx}`} className="px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-[10px] font-medium rounded-md">
+                            {tech}
+                          </span>
+                        ));
+                      })()}
                     </div>
                   </div>
                 </div>
