@@ -12,7 +12,8 @@ export const CareerTableHeader = ({ table }: CareerTableHeaderProps) => {
                 <tr key={headerGroup.id}>
                     {headerGroup.headers.map((header) => {
                         const isProjectColumn = header.column.id === 'projectName';
-                        const isTechStackColumn = header.column.id === 'techStack';
+                        const isLanguageColumn = header.column.id === 'language';
+                        const isToolColumn = header.column.id === 'tool';
 
                         const baseClasses = "px-6 py-4 text-left font-semibold uppercase tracking-wider text-xs whitespace-nowrap";
                         const stickyClasses = isProjectColumn ? "sticky left-0 z-10 bg-slate-50 dark:bg-slate-900 border-r border-slate-200 dark:border-slate-700 shadow-[4px_0_12px_-4px_rgba(0,0,0,0.1)] text-slate-900 dark:text-white" : "text-slate-500 dark:text-slate-400";
@@ -36,7 +37,7 @@ export const CareerTableHeader = ({ table }: CareerTableHeaderProps) => {
                                         </span>
                                     )}
 
-                                    {isTechStackColumn && !header.column.getIsSorted() && (
+                                    {(isLanguageColumn || isToolColumn) && !header.column.getIsSorted() && (
                                         <span className="material-symbols-outlined text-[14px] text-primary">filter_list</span>
                                     )}
                                 </div>

@@ -9,6 +9,7 @@ import { CareerTable } from './components/CareerTable';
 import { CardView } from './components/CardView';
 import { ListView } from './components/ListView';
 import { useCareerColumns } from './hooks/useCareerColumns';
+import { getAvailableTechs, getFlatTechList } from './utils/careerUtils';
 
 function App() {
   const [globalFilter, setGlobalFilter] = useState('');
@@ -18,53 +19,8 @@ function App() {
   const [selectedTech, setSelectedTech] = useState<string | null>(null);
   const [selectedYear, setSelectedYear] = useState<string | null>(null);
 
-  // Extract unique technologies from careerData (Pinned + Top 5 total)
-  const availableTechs = useMemo(() => {
-    const pinned = ["Vue.js", "React.js"];
-    const counts: Record<string, number> = {};
-
-    careerData.forEach(item => {
-      // Handle both old array format and new object format
-      if (Array.isArray(item.techStack)) {
-        item.techStack.forEach(tech => {
-          counts[tech] = (counts[tech] || 0) + 1;
-        });
-      } else {
-        // Extract from all categories
-        const stack = item.techStack;
-
-        // Combine all tech arrays
-        const allTechs = [
-          ...(stack.language || []),
-          ...(stack.scripts || []),
-          ...(stack.framework || []),
-          ...(stack.designTool || []),
-          ...(stack.stylesheet || []),
-          ...(stack.library || []),
-          ...(stack.versionControl || []),
-          ...(stack.other || []),
-        ];
-
-        // Add boolean flags as tags
-        if (stack.responsiveWeb) allTechs.push("반응형웹");
-        if (stack.accessibility) allTechs.push("웹접근성");
-        if (stack.multilingual) allTechs.push("다국어");
-
-        allTechs.forEach(tech => {
-          counts[tech] = (counts[tech] || 0) + 1;
-        });
-      }
-    });
-
-    // Sort others by frequency
-    const others = Object.entries(counts)
-      .filter(([tech]) => !pinned.includes(tech))
-      .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
-      .map(([tech]) => tech);
-
-    // Combine pinned and top others, limited to 8
-    return [...pinned, ...others].slice(0, 8);
-  }, []);
+  // Extract unique technologies from careerData
+  const availableTechs = useMemo(() => getAvailableTechs(careerData), []);
 
   // Extract all unique years from careerData
   const availableYears = useMemo(() => {
@@ -96,30 +52,11 @@ function App() {
     // Tech stack filter
     if (selectedTech) {
       data = data.filter(item => {
-        if (Array.isArray(item.techStack)) {
-          return item.techStack.includes(selectedTech);
-        } else {
-          const stack = item.techStack;
-
-          // Check all tech arrays
-          const allTechs = [
-            ...(stack.language || []),
-            ...(stack.scripts || []),
-            ...(stack.framework || []),
-            ...(stack.designTool || []),
-            ...(stack.stylesheet || []),
-            ...(stack.library || []),
-            ...(stack.versionControl || []),
-            ...(stack.other || []),
-          ];
-
-          // Check boolean flags
-          if (selectedTech === "반응형웹" && stack.responsiveWeb) return true;
-          if (selectedTech === "웹접근성" && stack.accessibility) return true;
-          if (selectedTech === "다국어" && stack.multilingual) return true;
-
-          return allTechs.includes(selectedTech);
-        }
+        const allTechs = [
+          ...getFlatTechList(item.language),
+          ...getFlatTechList(item.tool)
+        ];
+        return allTechs.includes(selectedTech);
       });
     }
 

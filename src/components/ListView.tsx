@@ -1,6 +1,7 @@
 import type { Row } from "@tanstack/react-table";
 import type { Career } from "../types";
 import { useMemo } from 'react';
+import { getFlatTechList } from "../utils/careerUtils";
 
 interface ListViewProps {
   rows: Row<Career>[];
@@ -15,17 +16,11 @@ interface CareerGroup {
 }
 
 export const ListView = ({ rows }: ListViewProps) => {
-  if (rows.length === 0) {
-    return (
-      <div className="text-center py-12 text-gray-500 bg-white rounded-lg border border-gray-200 border-dashed">
-        No matching records found.
-      </div>
-    );
-  }
-
   // Group rows by company/period continuity
   const groups = useMemo(() => {
     const result: CareerGroup[] = [];
+    if (rows.length === 0) return result;
+
     let currentGroup: CareerGroup | null = null;
 
     rows.forEach((row) => {
@@ -60,6 +55,14 @@ export const ListView = ({ rows }: ListViewProps) => {
 
     return result;
   }, [rows]);
+
+  if (rows.length === 0) {
+    return (
+      <div className="text-center py-12 text-gray-500 bg-white rounded-lg border border-gray-200 border-dashed">
+        No matching records found.
+      </div>
+    );
+  }
 
   const getGroupStyle = (index: number) => {
     // Cycle through styles: Primary (Blue), Amber, Emerald
@@ -127,25 +130,10 @@ export const ListView = ({ rows }: ListViewProps) => {
                     </p>
                     <div className="flex flex-wrap gap-2">
                       {(() => {
-                        let allTechs: string[] = [];
-                        if (Array.isArray(project.techStack)) {
-                          allTechs = project.techStack;
-                        } else {
-                          allTechs = [
-                            ...(project.techStack.language || []),
-                            ...(project.techStack.scripts || []),
-                            ...(project.techStack.framework || []),
-                            ...(project.techStack.designTool || []),
-                            ...(project.techStack.stylesheet || []),
-                            ...(project.techStack.library || []),
-                            ...(project.techStack.versionControl || []),
-                            ...(project.techStack.other || []),
-                          ];
-
-                          if (project.techStack.responsiveWeb) allTechs.push("반응형웹");
-                          if (project.techStack.accessibility) allTechs.push("웹접근성");
-                          if (project.techStack.multilingual) allTechs.push("다국어");
-                        }
+                        const allTechs = [
+                          ...getFlatTechList(project.language),
+                          ...getFlatTechList(project.tool)
+                        ];
 
                         return allTechs.map((tech, idx) => (
                           <span key={`${tech}-${idx}`} className="px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-[10px] font-medium rounded-md">

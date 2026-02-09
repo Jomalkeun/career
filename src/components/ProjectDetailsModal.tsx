@@ -7,6 +7,7 @@ import { ArchitectureSection } from './project-details/ArchitectureSection';
 import { ProjectScreenshot } from './project-details/ProjectScreenshot';
 import { ProjectFooter } from './project-details/ProjectFooter';
 import type { Career } from '../types';
+import { getFlatTechList } from '../utils/careerUtils';
 
 interface ProjectDetailsModalProps {
   isOpen: boolean;
@@ -24,7 +25,7 @@ export const ProjectDetailsModal = ({ isOpen, onClose, project }: ProjectDetails
             <ProjectScreenshot />
             <div className="p-6 space-y-8">
                 <ProjectOverview project={project} />
-                <TechStackList techStack={project.techStack} />
+                <TechStackList techStack={[...getFlatTechList(project.language), ...getFlatTechList(project.tool)]} />
                 <ContributionList description={project.description} />
                 <ArchitectureSection />
             </div>

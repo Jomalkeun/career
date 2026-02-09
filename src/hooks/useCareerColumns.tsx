@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import type { ColumnDef } from '@tanstack/react-table';
 import type { Career } from '../types';
+import { getFlatTechList } from '../utils/careerUtils';
 
 export const useCareerColumns = () => {
   return useMemo<ColumnDef<Career>[]>(
@@ -58,43 +59,86 @@ export const useCareerColumns = () => {
         enableSorting: false,
       },
       {
-        accessorKey: "techStack",
-        header: "사용기술",
+        accessorKey: "language",
+        header: "언어 (Language)",
         cell: (info) => {
-          const techStack = info.getValue();
-          let allTechs: string[] = [];
-
-          // Handle both old array format and new object format
-          if (Array.isArray(techStack)) {
-            allTechs = techStack;
-          } else {
-            const stack = techStack as any;
-
-            // Combine all tech arrays
-            allTechs = [
-              ...(stack.language || []),
-              ...(stack.scripts || []),
-              ...(stack.framework || []),
-              ...(stack.designTool || []),
-              ...(stack.stylesheet || []),
-              ...(stack.library || []),
-              ...(stack.versionControl || []),
-              ...(stack.other || []),
-            ];
-
-            // Add boolean flags as tags
-            if (stack.responsiveWeb) allTechs.push("반응형웹");
-            if (stack.accessibility) allTechs.push("웹접근성");
-            if (stack.multilingual) allTechs.push("다국어");
-          }
-
+          const languages = getFlatTechList(info.getValue() as any);
           return (
             <div className="flex flex-wrap gap-1.5">
-              {allTechs.map((tech, idx) => (
-                <span key={`${tech}-${idx}`} className="px-2 py-1 text-xs rounded border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
-                  {tech}
+              {languages?.map((lang, idx) => (
+                <span key={`${lang}-${idx}`} className="px-2 py-1 text-xs rounded border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                  {lang}
                 </span>
               ))}
+            </div>
+          );
+        },
+        enableSorting: false,
+      },
+      {
+        accessorKey: "tool",
+        header: "Tool",
+        cell: (info) => {
+          const tools = getFlatTechList(info.getValue() as any);
+          return (
+            <div className="flex flex-wrap gap-1.5">
+              {tools?.map((tool, idx) => (
+                <span key={`${tool}-${idx}`} className="px-2 py-1 text-xs rounded border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                  {tool}
+                </span>
+              ))}
+            </div>
+          );
+        },
+        enableSorting: false,
+      },
+      {
+        accessorKey: "techStack",
+        header: "Tech Stack",
+        cell: (info) => {
+          const val = info.getValue() as any;
+          if (!val) return null;
+          
+          if (Array.isArray(val)) {
+             return (
+              <div className="flex flex-wrap gap-1.5">
+                {val.map((item, idx) => (
+                  <span key={idx} className="px-2 py-1 text-xs rounded border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                    {item}
+                  </span>
+                ))}
+              </div>
+             )
+          }
+
+          const { phase, responsiveWeb, accessibility, multilingual, other } = val;
+          return (
+            <div className="flex flex-wrap gap-1.5">
+              {phase && (
+                 <span className="px-2 py-1 text-xs rounded border border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-300">
+                  {phase}
+                </span>
+              )}
+               {responsiveWeb && (
+                <span className="px-2 py-1 text-xs rounded border border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-300">
+                  반응형
+                </span>
+              )}
+               {accessibility && (
+                <span className="px-2 py-1 text-xs rounded border border-purple-200 dark:border-purple-800 bg-purple-50 dark:bg-purple-900/30 text-purple-600 dark:text-purple-300">
+                   웹접근성
+                </span>
+              )}
+              {multilingual && (
+                 <span className="px-2 py-1 text-xs rounded border border-orange-200 dark:border-orange-800 bg-orange-50 dark:bg-orange-900/30 text-orange-600 dark:text-orange-300">
+                   다국어
+                </span>
+              )}
+               {other?.map((item: string, idx: number) => (
+                  <span key={idx} className="px-2 py-1 text-xs rounded border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                    {item}
+                  </span>
+               ))}
             </div>
           );
         },

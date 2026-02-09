@@ -1,18 +1,30 @@
 export interface TechStackCategorized {
   phase?: string;
-  language?: string[];
-  scripts?: string[];
   framework?: string[];
-  designTool?: string[];
-  stylesheet?: string[];
   library?: string[];
-  versionControl?: string[];
   responsiveWeb?: boolean; // 반응형 웹 여부
   accessibility?: boolean; // 웹접근성 준수 여부
   multilingual?: boolean; // 다국어 지원 여부
+  other?: string[];
+}
+
+export interface ToolCategorized {
+  framework?: string[];
+  designTool?: string[];
+  library?: string[];
+  versionControl?: string[];
   cms?: string[];
   other?: string[];
 }
+
+
+export interface LanguageCategorized {
+  scripts?: string[];
+  framework?: string[];
+  stylesheet?: string[];
+  other?: string[];
+}
+
 
 export interface Career {
   id: string;
@@ -27,6 +39,8 @@ export interface Career {
   roleType: 'lead' | 'member';
   osEnv: string;
   techStack: string[] | TechStackCategorized;
+  language?: string[] | LanguageCategorized;
+  tool?: string[] | ToolCategorized;
   period?: string;
   category?: string;
   description?: string;

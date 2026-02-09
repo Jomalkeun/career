@@ -1,4 +1,5 @@
 import type { Career } from "../types";
+import { getFlatTechList } from "../utils/careerUtils";
 
 interface CareerTableRowProps {
   career: Career;
@@ -46,35 +47,68 @@ export const CareerTableRow = ({ career, onOpenModal }: CareerTableRowProps) => 
             {career.osEnv}
           </span>
         </td>
-        <td className="px-6 py-4 whitespace-nowrap">
-          <div className="flex gap-1.5">
+        <td className="px-6 py-4">
+          <div className="flex gap-1.5 flex-wrap max-w-[200px]">
+            {getFlatTechList(career.language).map((lang, idx) => (
+              <span key={`${lang}-${idx}`} className="px-2 py-1 text-xs rounded border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                {lang}
+              </span>
+            ))}
+          </div>
+        </td>
+        <td className="px-6 py-4">
+          <div className="flex gap-1.5 flex-wrap max-w-[200px]">
+             {getFlatTechList(career.tool).map((tool, idx) => (
+              <span key={`${tool}-${idx}`} className="px-2 py-1 text-xs rounded border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                {tool}
+              </span>
+            ))}
+          </div>
+        </td>
+        <td className="px-6 py-4">
+          <div className="flex gap-1.5 flex-wrap max-w-[200px]">
             {(() => {
-              let allTechs: string[] = [];
-              if (Array.isArray(career.techStack)) {
-                allTechs = career.techStack;
-              } else {
-                const stack = career.techStack;
-                allTechs = [
-                  ...(stack.language || []),
-                  ...(stack.scripts || []),
-                  ...(stack.framework || []),
-                  ...(stack.designTool || []),
-                  ...(stack.stylesheet || []),
-                  ...(stack.library || []),
-                  ...(stack.versionControl || []),
-                  ...(stack.other || []),
-                ];
-
-                if (stack.responsiveWeb) allTechs.push("반응형웹");
-                if (stack.accessibility) allTechs.push("웹접근성");
-                if (stack.multilingual) allTechs.push("다국어");
+              const val = career.techStack;
+              if (!val) return null;
+              
+              if (Array.isArray(val)) {
+                 return val.map((item, idx) => (
+                  <span key={idx} className="px-2 py-1 text-xs rounded border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                    {item}
+                  </span>
+                 ));
               }
 
-              return allTechs.map((tech, idx) => (
-                <span key={`${tech}-${idx}`} className="px-2 py-1 text-xs rounded border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
-                  {tech}
-                </span>
-              ));
+              const { phase, responsiveWeb, accessibility, multilingual, other } = val;
+              return (
+                <>
+                  {phase && (
+                     <span className="px-2 py-1 text-xs rounded border border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-300">
+                      {phase}
+                    </span>
+                  )}
+                   {responsiveWeb && (
+                    <span className="px-2 py-1 text-xs rounded border border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-300">
+                      반응형
+                    </span>
+                  )}
+                   {accessibility && (
+                    <span className="px-2 py-1 text-xs rounded border border-purple-200 dark:border-purple-800 bg-purple-50 dark:bg-purple-900/30 text-purple-600 dark:text-purple-300">
+                       웹접근성
+                    </span>
+                  )}
+                  {multilingual && (
+                     <span className="px-2 py-1 text-xs rounded border border-orange-200 dark:border-orange-800 bg-orange-50 dark:bg-orange-900/30 text-orange-600 dark:text-orange-300">
+                       다국어
+                    </span>
+                  )}
+                   {other?.map((item, idx) => (
+                      <span key={idx} className="px-2 py-1 text-xs rounded border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                        {item}
+                      </span>
+                   ))}
+                </>
+              );
             })()}
           </div>
         </td>

@@ -13,13 +13,18 @@ export const careerData: Career[] = [
     role: "PL",
     roleType: "lead",
     osEnv: "Web / Mobile",
-    techStack: {
-      phase: "구축",
-      scripts: ["Vue.js", "TS"],
-      designTool: ["Figma"],
+    language: {
+      scripts: ["TypeScript"],
+      framework: ["Vue.js"],
       stylesheet: ["Scss"],
+    },
+    tool: {
+      designTool: ["Figma"],
       library: ["HiChart"],
       versionControl: ["Git"],
+    },
+    techStack: {
+      phase: "구축",
       other: ["대쉬보드"]
     },
     description: "대시보드 및 차트 디자인 퍼블리싱",
@@ -36,13 +41,17 @@ export const careerData: Career[] = [
     role: "PA",
     roleType: "member",
     osEnv: "Web / Mobile",
+    language: {
+      framework: ["Vue.js"],
+      stylesheet: ["Scss"],
+    },
+    tool: {
+      designTool: ["Figma"],
+      versionControl: ["Git"],
+      other: ["Jenkins", "Storybook"],
+    },
     techStack: {
       phase: "운영",
-      scripts: ["Vue.js"],
-      designTool: ["Figma"],
-      stylesheet: ["Scss"],
-      versionControl: ["Git", "Jenkins"],
-      other: []
     },
     description: "사이트 운영 및 부분 UIUX 고도화",
   },
@@ -58,13 +67,18 @@ export const careerData: Career[] = [
     role: "PA",
     roleType: "member",
     osEnv: "Web / Mobile",
+    language: {
+      framework: ["React.js"],
+      stylesheet: ["Scss"],
+    },
+    tool: {
+      designTool: ["Figma"],
+      framework: ["Panda.css"],
+      versionControl: ["GitLab"],
+      other: ["Storybook"],
+    },
     techStack: {
       phase: "리뉴얼",
-      scripts: ["React.js"],
-      designTool: ["Figma"],
-      stylesheet: ['scss'],
-      framework: ["Panda.css"],
-      versionControl: ["GitLab"]
     },
     description: "쇼핑몰 리뉴얼, Panda CSS 활용 React 퍼블리싱",
   },
@@ -80,14 +94,17 @@ export const careerData: Career[] = [
     role: "PA",
     roleType: "member",
     osEnv: "Web / Mobile",
+    language: {
+      stylesheet: ["Scss"],
+      other: ["Pug"],
+    },
+    tool: {
+      designTool: ["Photoshop"],
+      versionControl: ["Git"],
+      library: ["Bootstrap 4.0"]
+    },
     techStack: {
       phase: "구축",
-      scripts: ["Pug"],
-      designTool: ["Photoshop"],
-      stylesheet: ["Scss"],
-      library: ["Bootstrap 4.0"],
-      versionControl: ["Git"],
-      other: [],
       accessibility: true
     },
     description: "웹접근성 퍼블리싱",
@@ -104,12 +121,17 @@ export const careerData: Career[] = [
     role: "PA",
     roleType: "member",
     osEnv: "Web / Tablet / Mobile",
-    techStack: {
-      phase: "운영",
-      scripts: ["HTML", "JS"],
+    language: {
+      scripts: ["JS"],
+      other: ["HTML"],
+    },
+    tool: {
       designTool: ["Figma", "Photoshop"],
       versionControl: ["SVN"],
-      other: ["콘텐츠 제작", "애니메이션"]
+      other: ["콘텐츠 제작", "애니메이션"],
+    },
+    techStack: {
+      phase: "운영",
     },
     description: "천재교과서 밀크T웹탭앱 운영",
   },
@@ -125,13 +147,17 @@ export const careerData: Career[] = [
     role: "PA",
     roleType: "member",
     osEnv: "Web / Mobile",
+    language: {
+      framework: ["Vue.js"],
+      stylesheet: ["Scss"],
+    },
+    tool: {
+      designTool: ["Figma"],
+      versionControl: ["Git"],
+      other: ["커머스"],
+    },
     techStack: {
       phase: "구축",
-      scripts: ["Vue.js"],
-      designTool: ["Figma"],
-      stylesheet: ["Scss"],
-      versionControl: ["Git"],
-      other: ["커머스"]
     },
     description: "Vue.js 3.0 구축 중 중간 투입 후 퍼블 마무리",
   },
@@ -147,14 +173,18 @@ export const careerData: Career[] = [
     role: "PL",
     roleType: "lead",
     osEnv: "Web / Mobile",
-    techStack: {
-      phase: "구축",
-      language: ["JSP", "Pug"],
-      scripts: ["JS"],
-      designTool: ["XD"],
+    language: {
+      scripts: ["JSP", "JS"],
       stylesheet: ["Scss"],
+      other: ["Pug"],
+    },
+    tool: {
+      designTool: ["XD"],
       versionControl: ["SVN"],
       other: ["금융권"],
+    },
+    techStack: {
+      phase: "구축",
       accessibility: true
     },
     description: "우체국 보험 영업지원 솔루션 PA 3 관리 및 구축",
@@ -171,13 +201,17 @@ export const careerData: Career[] = [
     role: "PA",
     roleType: "member",
     osEnv: "Web / Mobile",
+    language: {
+      framework: ["Vue.js"],
+      stylesheet: ["Scss"],
+    },
+    tool: {
+      designTool: ["Photoshop"],
+      versionControl: ["Git"],
+      other: ["병원영업솔루션"],
+    },
     techStack: {
       phase: "구축",
-      scripts: ["Vue.js"],
-      designTool: ["Photoshop"],
-      stylesheet: ["Scss"],
-      versionControl: ["Git"],
-      other: ["병원영업솔루션"]
     },
     description: "병원 영업 내부 솔루션 고도 화 및 개선, 개발 협업",
   },
@@ -193,13 +227,17 @@ export const careerData: Career[] = [
     role: "PL",
     roleType: "lead",
     osEnv: "Web / Mobile",
+    language: {
+      framework: ["Vue.js"],
+      stylesheet: ["Scss"],
+    },
+    tool: {
+      versionControl: ["Git"],
+      library: ["Chart.js"],
+      other: ["웹앱", "주식차트"],
+    },
     techStack: {
       phase: "구축",
-      scripts: ["Vue.js"],
-      stylesheet: ["Scss"],
-      library: ["Chart.js"],
-      versionControl: ["Git"],
-      other: ["웹앱", "주식차트"]
     },
     description: "가상자산거래소 구축",
   },
@@ -215,11 +253,15 @@ export const careerData: Career[] = [
     role: "PA",
     roleType: "member",
     osEnv: "Web / Mobile",
+    language: {
+      framework: ["Vue.js"],
+      stylesheet: ["Scss"],
+    },
+    tool: {
+      versionControl: ["Git"],
+    },
     techStack: {
       phase: "시안",
-      scripts: ["Vue.js"],
-      stylesheet: ["Scss"],
-      versionControl: ["Git"]
     },
     description: "노스페이지 리뉴얼 UI 시안작업",
   },
@@ -235,14 +277,17 @@ export const careerData: Career[] = [
     role: "PL",
     roleType: "lead",
     osEnv: "Web / Mobile",
+    language: {
+      scripts: ["JSP"],
+      stylesheet: ["Scss"],
+      other: ["Pug"],
+    },
+    tool: {
+      versionControl: ["Git"]
+    },
     techStack: {
       phase: "구축",
-      stylesheet: ["Scss"],
-      language: ["JSP", "Pug"],
-      versionControl: ["Git"],
-      other: [],
       accessibility: true
-
     },
     description: "중앙대학교 인력관리 AI 프로그램 e - advisor 신규 개발 관련, 시스템 UI 개발 PL 업무",
   },
@@ -258,11 +303,15 @@ export const careerData: Career[] = [
     role: "PA",
     roleType: "member",
     osEnv: "Web / Mobile",
+    language: {
+      framework: ["React.js"],
+      other: ["HTML"],
+    },
+    tool: {
+      versionControl: ["SVN"],
+    },
     techStack: {
       phase: "운영",
-      language: ["HTML"],
-      scripts: ["React.js"],
-      versionControl: ["SVN"]
     },
     description: "비상교육 내 패밀리 사이트 6종 운영",
   },
@@ -278,10 +327,15 @@ export const careerData: Career[] = [
     role: "PA",
     roleType: "member",
     osEnv: "Web / Mobile",
+    language: {
+      other: ["HTML"],
+    },
+    tool: {
+      versionControl: ["SVN"],
+      other: ["내부망"],
+    },
     techStack: {
       phase: "운영",
-      language: ["HTML"],
-      other: ["내부망", "SVN"]
     },
     description: "LG 유플러스 홈페이지 운영 및 개선",
   },
@@ -297,9 +351,12 @@ export const careerData: Career[] = [
     role: "PA",
     roleType: "member",
     osEnv: "Web",
+    language: {
+      other: ["HTML"],
+    },
+    tool: {},
     techStack: {
       phase: "구축",
-      language: ["HTML"]
     },
     description: "아모레퍼시픽 직원 내부 쇼핑몰 메인 및 서브페이지 레이아웃",
   },
@@ -317,10 +374,12 @@ export const careerData: Career[] = [
     role: "PL",
     roleType: "lead",
     osEnv: "Web",
+    language: {},
+    tool: {
+      library: ["Bootstrap", "Canvas 차트"],
+    },
     techStack: {
       phase: "구축",
-      library: ["Bootstrap"],
-      other: ["Canvas 차트"]
     },
     description: "비즈엔젤 내부회계시스템 구축",
   },
@@ -336,9 +395,12 @@ export const careerData: Career[] = [
     role: "PA",
     roleType: "member",
     osEnv: "Web",
+    language: {
+      other: ["HTML"],
+    },
+    tool: {},
     techStack: {
       phase: "구축",
-      language: ["HTML"]
     },
     description: "오빵닷컴 사이트 구축",
   },
@@ -356,9 +418,12 @@ export const careerData: Career[] = [
     role: "PA",
     roleType: "member",
     osEnv: "Mobile",
+    language: {
+      other: ["HTML"],
+    },
+    tool: {},
     techStack: {
       phase: "구축",
-      language: ["HTML"],
       responsiveWeb: true
     },
     description: "",
@@ -375,11 +440,15 @@ export const careerData: Career[] = [
     role: "PA",
     roleType: "member",
     osEnv: "Web",
+    language: {
+      other: ["HTML"],
+    },
+    tool: {
+      library: ["jQuery"],
+      other: ["디지털교과서"],
+    },
     techStack: {
       phase: "구축",
-      language: ["HTML"],
-      scripts: ["jQuery"],
-      other: ["디지털교과서"]
     },
     description: "중등학교 영어 (9개단원 중 9개 단원)/과학(9개단원 중 9개 단원) 교과서 퍼블리싱",
   },
@@ -396,11 +465,15 @@ export const careerData: Career[] = [
     role: "PL",
     roleType: "lead",
     osEnv: "Web",
+    language: {
+      scripts: ["JSP"],
+    },
+    tool: {
+      library: ["Bootstrap"],
+      other: ["Canvas 차트"],
+    },
     techStack: {
       phase: "구축",
-      language: ["JSP"],
-      library: ["Bootstrap"],
-      other: ["Canvas 차트"]
     },
     description: "테이블 코딩으로 되어 있던 회계 및 인사 관리 프로그램에 Bootstrap + Canvas 차트 UI고도화 작업",
   },
@@ -417,11 +490,14 @@ export const careerData: Career[] = [
     company: "저스트고",
     role: "PA",
     roleType: "member",
-    osEnv: "Web / Mobile",
+    osEnv: "Mobile",
+    language: {
+      stylesheet: ["Sass"],
+      other: ["HTML"],
+    },
+    tool: {},
     techStack: {
       phase: "구축",
-      language: ["HTML"],
-      stylesheet: ["Sass"]
     },
     description: "노랑풍선 여행사의 해외호텔 런칭에 따른 모바일 웹 + PC 웹 버전 신규 구축 및 개발, 관련 퍼블리싱 전체 전담",
   },
@@ -440,10 +516,15 @@ export const careerData: Career[] = [
     role: "PA",
     roleType: "member",
     osEnv: "Web",
+    language: {
+      stylesheet: ["Sass"],
+      other: ["HTML"]
+    },
+    tool: {
+      other: ["디지털교과서"],
+    },
     techStack: {
       phase: "구축",
-      stylesheet: ["Jade", "Sass"],
-      other: ["디지털교과서"]
     },
     description: "비상교육 디지털 교과서 퍼블리싱",
   },
@@ -462,11 +543,13 @@ export const careerData: Career[] = [
     role: "PA",
     roleType: "member",
     osEnv: "Web",
+    language: {
+      stylesheet: ["Sass"],
+      other: ["Jade"],
+    },
+    tool: {},
     techStack: {
       phase: "구축",
-      language: ["HTML"],
-      stylesheet: ["Jade", "Sass"],
-      other: [],
       responsiveWeb: true
     },
     description: "글로벌 쇼핑몰 플랫폼, 반응형 웹 퍼블리싱Html5",
@@ -484,11 +567,13 @@ export const careerData: Career[] = [
     role: "PA",
     roleType: "member",
     osEnv: "Web",
+    language: {
+      stylesheet: ["CSS"],
+      other: ["HTML"],
+    },
+    tool: {},
     techStack: {
       phase: "리뉴얼",
-      language: ["HTML"],
-      stylesheet: ["CSS"],
-      other: [],
       accessibility: true
     },
     description: "현대건설 내부 솔루션 개선 프로젝트 - 기존의 테이블 코딩을 웹표준 퍼블리싱으로 변경웹 접근성",
@@ -506,11 +591,15 @@ export const careerData: Career[] = [
     role: "PA",
     roleType: "member",
     osEnv: "Web",
+    language: {
+      stylesheet: ["CSS"],
+      other: ["HTML"],
+    },
+    tool: {
+      library: ["Bootstrap"],
+    },
     techStack: {
       phase: "구축",
-      language: ["HTML"],
-      stylesheet: ["CSS"],
-      library: ["Bootstrap"]
     },
     description: "경기관광공사 내부 CRM 시스템 프론트 기획 및 개발부트스트랩",
   },
@@ -527,11 +616,13 @@ export const careerData: Career[] = [
     role: "PA",
     roleType: "member",
     osEnv: "Web",
+    language: {
+      stylesheet: ["CSS"],
+      other: ["HTML"],
+    },
+    tool: {},
     techStack: {
       phase: "리뉴얼",
-      language: ["HTML"],
-      stylesheet: ["CSS"],
-      other: [],
       accessibility: true
     },
     description: "킨텍스 국제 전시장, 웹접근성 사이트 메인 디자인, 서브 레이아웃 디자인 변경건웹 접근성",
@@ -550,11 +641,15 @@ export const careerData: Career[] = [
     role: "PA",
     roleType: "member",
     osEnv: "Web / Mobile",
+    language: {
+      stylesheet: ["CSS"],
+      other: ["HTML"],
+    },
+    tool: {
+      other: ["반응형웹"],
+    },
     techStack: {
       phase: "리뉴얼",
-      language: ["HTML"],
-      stylesheet: ["CSS"],
-      other: [],
       responsiveWeb: true
     },
     description: "주성엔지니어링 홈페이지 구축 반응형 웹 작업반응형웹",
@@ -572,11 +667,13 @@ export const careerData: Career[] = [
     role: "PA",
     roleType: "member",
     osEnv: "Web / Mobile",
+    language: {
+      stylesheet: ["CSS"],
+      other: ["HTML"],
+    },
+    tool: {},
     techStack: {
       phase: "구축",
-      language: ["HTML"],
-      stylesheet: ["CSS"],
-      other: [],
       responsiveWeb: true
     },
     description: "반응형 레이아웃, 전체 소스 퍼블리싱 단독 작업,반응형웹",
@@ -597,11 +694,14 @@ export const careerData: Career[] = [
     role: "PA",
     roleType: "member",
     osEnv: "Web / Mobile",
+    language: {
+      stylesheet: ["CSS"],
+      other: ["HTML"],
+    },
+    tool: {
+    },
     techStack: {
       phase: "리뉴얼",
-      language: ["HTML"],
-      stylesheet: ["CSS"],
-      other: [],
       responsiveWeb: true,
       multilingual: true
     },
@@ -622,13 +722,17 @@ export const careerData: Career[] = [
     role: "PA",
     roleType: "member",
     osEnv: "Web / Mobile",
-    techStack: {
-      phase: "구축",
-      language: ["HTML"],
+    language: {
       scripts: ["JS"],
       stylesheet: ["CSS"],
+      other: ["HTML"],
+    },
+    tool: {
       library: ["Tweenmax"],
-      other: ["콘텐츠 퍼블리싱"]
+      other: ["콘텐츠 퍼블리싱"],
+    },
+    techStack: {
+      phase: "구축",
     },
     description: "대한민국 발전상을 해외에 알리는 교육 컨텐츠를 HTML5 기반 컨텐츠로 제작",
   },
@@ -646,12 +750,15 @@ export const careerData: Career[] = [
     role: "PA",
     roleType: "member",
     osEnv: "Web / Mobile",
+    language: {
+      stylesheet: ["CSS"],
+      other: ["HTML"],
+    },
+    tool: {
+      cms: ["WordPress"],
+    },
     techStack: {
       phase: "리뉴얼",
-      language: ["HTML"],
-      stylesheet: ["CSS"],
-      cms: ["WordPress"],
-      other: [],
       responsiveWeb: true,
       accessibility: true
     },
@@ -672,12 +779,16 @@ export const careerData: Career[] = [
     role: "PA",
     roleType: "member",
     osEnv: "Web / Mobile",
+    language: {
+      stylesheet: ["CSS"],
+      other: ["HTML", "Epub 3.0"],
+    },
+    tool: {
+      library: ["Bootstrap"],
+      other: ["디지털교과서"],
+    },
     techStack: {
       phase: "구축",
-      language: ["HTML"],
-      stylesheet: ["CSS"],
-      library: ["Bootstrap"],
-      other: ["디지털교과서", "Epub 3.0"],
       responsiveWeb: true
     },
     description: "디지털 교과서 HTML5 퍼블리싱 14개중 5개 단원부트스트랩",
@@ -697,11 +808,14 @@ export const careerData: Career[] = [
     role: "PA",
     roleType: "member",
     osEnv: "Web / Mobile",
+    language: {
+      stylesheet: ["CSS"],
+      other: ["HTML"],
+    },
+    tool: {
+    },
     techStack: {
       phase: "구축",
-      language: ["HTML"],
-      stylesheet: ["CSS"],
-      other: [],
       responsiveWeb: true,
       accessibility: true
     },
@@ -721,11 +835,15 @@ export const careerData: Career[] = [
     role: "PA",
     roleType: "member",
     osEnv: "Web / Mobile",
+    language: {
+      stylesheet: ["CSS"],
+      other: ["HTML"],
+    },
+    tool: {
+      other: ["스마트TV 웹앱"],
+    },
     techStack: {
       phase: "구축",
-      language: ["HTML"],
-      stylesheet: ["CSS"],
-      other: ["스마트TV 웹앱"]
     },
     description: "",
   },
@@ -743,10 +861,13 @@ export const careerData: Career[] = [
     role: "PA",
     roleType: "member",
     osEnv: "Web / Mobile",
+    language: {
+      stylesheet: ["CSS"],
+      other: ["HTML"],
+    },
+    tool: {},
     techStack: {
       phase: "구축",
-      language: ["HTML"],
-      stylesheet: ["CSS"]
     },
     description: "",
   },

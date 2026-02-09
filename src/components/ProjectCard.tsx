@@ -1,34 +1,18 @@
 import type { Career } from "../types";
+import { getFlatTechList } from "../utils/careerUtils";
 
 interface ProjectCardProps {
   career: Career;
 }
 
 export const ProjectCard = ({ career }: ProjectCardProps) => {
-  const { period = "", company, role, description, techStack, projectName, durationInMonths, client } = career;
+  const { period = "", company, role, description, projectName, durationInMonths, client } = career;
 
   // Extract all techs from categorized structure
-  let allTechs: string[] = [];
-  if (Array.isArray(techStack)) {
-    allTechs = techStack;
-  } else {
-    // Assuming techStack is an object if not an array
-    allTechs = [
-      ...(techStack.language || []),
-      ...(techStack.scripts || []),
-      ...(techStack.framework || []),
-      ...(techStack.designTool || []),
-      ...(techStack.stylesheet || []),
-      ...(techStack.library || []),
-      ...(techStack.versionControl || []),
-      ...(techStack.other || []),
-    ];
-
-    // Add boolean flags as tags
-    if (techStack.responsiveWeb) allTechs.push("반응형웹");
-    if (techStack.accessibility) allTechs.push("웹접근성");
-    if (techStack.multilingual) allTechs.push("다국어");
-  }
+  const allTechs = [
+    ...getFlatTechList(career.language),
+    ...getFlatTechList(career.tool)
+  ];
 
   // Random color selection for the left border strip, or deterministically based on id/name
   const colors = ['bg-primary', 'bg-indigo-500', 'bg-teal-500', 'bg-purple-500', 'bg-rose-500', 'bg-amber-500'];
