@@ -1,5 +1,4 @@
 export interface TechStackCategorized {
-  phase?: string;
   framework?: string[];
   library?: string[];
   responsiveWeb?: boolean; // 반응형 웹 여부
@@ -43,5 +42,6 @@ export interface Career {
   tool?: string[] | ToolCategorized;
   period?: string;
   category?: string;
+  phase?: string;
   description?: string;
 }

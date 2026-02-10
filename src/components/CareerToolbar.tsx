@@ -14,6 +14,8 @@ interface CareerToolbarProps {
   selectedYear: string | null;
   setSelectedYear: (year: string | null) => void;
   availableYears: string[];
+  showDescriptionAsRow: boolean;
+  setShowDescriptionAsRow: (show: boolean) => void;
 }
 
 export const CareerToolbar = ({
@@ -25,6 +27,8 @@ export const CareerToolbar = ({
   selectedYear,
   setSelectedYear,
   availableYears,
+  showDescriptionAsRow,
+  setShowDescriptionAsRow,
 }: CareerToolbarProps) => {
   return (
     <div className="bg-surface-light dark:bg-surface-dark border-b border-border-light dark:border-border-dark px-6 py-4 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 z-40 shadow-[0_1px_2px_0_rgba(0,0,0,0.05)] shrink-0">
@@ -44,10 +48,12 @@ export const CareerToolbar = ({
           label="Filter"
           onClick={onToggleFilters}
         />
-        {/* <ToolbarButton 
-          icon="sort" 
-          label="Sort" 
-        /> */}
+        <ToolbarButton
+          icon={showDescriptionAsRow ? "splitscreen_bottom" : "splitscreen_right"}
+          label={showDescriptionAsRow ? "2행 보기" : "1행 보기"}
+          onClick={() => setShowDescriptionAsRow(!showDescriptionAsRow)}
+          active={showDescriptionAsRow}
+        />
         <div className="h-6 w-px bg-slate-300 dark:bg-slate-700 mx-1 hidden lg:block"></div>
         <ViewToggle viewMode={viewMode} setViewMode={setViewMode} />
         <ExportButton />

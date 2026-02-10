@@ -18,6 +18,7 @@ function App() {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [selectedTech, setSelectedTech] = useState<string | null>(null);
   const [selectedYear, setSelectedYear] = useState<string | null>(null);
+  const [showDescriptionAsRow, setShowDescriptionAsRow] = useState(true);
 
   // Extract unique technologies from careerData
   const availableTechs = useMemo(() => getAvailableTechs(careerData), []);
@@ -68,7 +69,7 @@ function App() {
     return data;
   }, [globalFilter, selectedTech, selectedYear]);
 
-  const columns = useCareerColumns();
+  const columns = useCareerColumns(showDescriptionAsRow);
 
   const table = useReactTable({
     data: filteredData,
@@ -87,11 +88,13 @@ function App() {
   return (
     <div className="font-display antialiased bg-background-light dark:bg-background-dark min-h-screen">
       <Header />
-      <main className="px-6 py-8 space-y-8 max-w-[1440px] mx-auto">
-        <ProfileSection
-          selectedTech={selectedTech}
-          onSelectTech={setSelectedTech}
-        />
+      <main className="px-6 py-8 space-y-8 ">
+        <section className="max-w-[1440px] mx-auto">
+          <ProfileSection
+            selectedTech={selectedTech}
+            onSelectTech={setSelectedTech}
+          />
+        </section>
 
         <section className="space-y-0 rounded-xl overflow-hidden border border-border-light dark:border-border-dark shadow-sm bg-surface-light dark:bg-surface-dark">
           <CareerToolbar
@@ -103,6 +106,8 @@ function App() {
             selectedYear={selectedYear}
             setSelectedYear={setSelectedYear}
             availableYears={availableYears}
+            showDescriptionAsRow={showDescriptionAsRow}
+            setShowDescriptionAsRow={setShowDescriptionAsRow}
           />
           {showFilters && (
             <CareerFilters
@@ -115,7 +120,7 @@ function App() {
 
           <div className="p-0">
             {viewMode === "table" ? (
-              <CareerTable table={table} />
+              <CareerTable table={table} showDescriptionAsRow={showDescriptionAsRow} />
             ) : viewMode === "card" ? (
               <div className="p-6">
                 <CardView rows={table.getRowModel().rows} />

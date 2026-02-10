@@ -270,14 +270,14 @@ export const skillsData: Skill[] = [
         color: '#31A8FF',
         showInCard: false
     },
-    {
-        name: 'Illustrator',
-        level: 3,
-        category: 'Design & Tools',
-        iconText: 'Ai',
-        color: '#FF9A00',
-        showInCard: false
-    },
+    // {
+    //     name: 'Illustrator',
+    //     level: 3,
+    //     category: 'Design & Tools',
+    //     iconText: 'Ai',
+    //     color: '#FF9A00',
+    //     showInCard: false
+    // },
 
     // Other Tools
     {

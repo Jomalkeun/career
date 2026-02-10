@@ -7,9 +7,10 @@ import { CareerTableRow } from './CareerTableRow';
 
 interface CareerTableProps {
   table: Table<Career>;
+  showDescriptionAsRow: boolean;
 }
 
-export const CareerTable = ({ table }: CareerTableProps) => {
+export const CareerTable = ({ table, showDescriptionAsRow }: CareerTableProps) => {
   const [selectedProject, setSelectedProject] = useState<Career | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -34,6 +35,7 @@ export const CareerTable = ({ table }: CareerTableProps) => {
                 key={row.id}
                 career={row.original}
                 onOpenModal={handleOpenModal}
+                showDescriptionAsRow={showDescriptionAsRow}
               />
             ))}
           </tbody>
