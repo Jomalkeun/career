@@ -27,7 +27,7 @@ export const ProjectDetailsModal = ({ isOpen, onClose, project }: ProjectDetails
                 <ProjectOverview project={project} />
                 <TechStackList techStack={[...getFlatTechList(project.language), ...getFlatTechList(project.tool)]} />
                 <ContributionList description={project.description} />
-                <ArchitectureSection />
+                <ArchitectureSection project={project} />
             </div>
          </div>
          <ProjectFooter />
