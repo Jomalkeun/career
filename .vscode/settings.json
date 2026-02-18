@@ -1,0 +1,8 @@
+{
+    "chat.tools.terminal.autoApprove": {
+        "/^cd /workspaces/career && git add \\. && git commit -m \"Fix TypeScript errors and prepare for GitHub Pages deployment\"$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    }
+}
