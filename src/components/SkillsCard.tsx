@@ -3,24 +3,11 @@ import { SkillsDetailModal } from './SkillsDetailModal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getCardSkills, getLevelText } from '../data/skillsData';
 
-interface SkillsCardProps {
-  selectedTech: string | null;
-  onSelectTech: (tech: string | null) => void;
-}
-
-export function SkillsCard({ selectedTech, onSelectTech }: SkillsCardProps) {
+export function SkillsCard() {
   const [isOpen, setIsOpen] = useState(false);
 
   // Get only skills that should be shown in the card
   const topSkills = getCardSkills();
-
-  const handleTechClick = (techName: string) => {
-    if (selectedTech === techName) {
-      onSelectTech(null);
-    } else {
-      onSelectTech(techName);
-    }
-  };
 
   return (
     <>
@@ -41,11 +28,8 @@ export function SkillsCard({ selectedTech, onSelectTech }: SkillsCardProps) {
           {topSkills.map((skill) => (
             <button
               key={skill.name}
-              onClick={() => handleTechClick(skill.name)}
-              className={`bg-surface-light dark:bg-surface-dark p-4 rounded-xl shadow-sm border flex flex-col items-center justify-center gap-2 aspect-square group transition-all cursor-pointer text-center w-full
-                ${selectedTech === skill.name
-                  ? 'border-primary bg-primary/5 dark:bg-primary/10 ring-2 ring-primary/20 scale-[1.02]'
-                  : 'border-slate-100 dark:border-slate-700 hover:border-primary/30 hover:scale-[1.02] shadow-sm hover:shadow-md'}`}
+              onClick={() => setIsOpen(true)}
+              className="bg-surface-light dark:bg-surface-dark p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700 hover:border-primary/30 hover:scale-[1.02] shadow-sm hover:shadow-md flex flex-col items-center justify-center gap-2 aspect-square group transition-all cursor-pointer text-center w-full"
             >
               {skill.icon ? (
                 <FontAwesomeIcon icon={skill.icon} className="text-3xl mb-1" style={{ color: skill.color }} />

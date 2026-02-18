@@ -4,24 +4,18 @@ import { useMemo, useState } from 'react';
 import { careerData } from './data/careerData';
 import { getCoreRowModel, useReactTable, getFilteredRowModel, getSortedRowModel, type SortingState } from '@tanstack/react-table';
 import { CareerToolbar } from './components/CareerToolbar';
-import { CareerFilters } from './components/CareerFilters';
 import { CareerTable } from './components/CareerTable';
 import { CardView } from './components/CardView';
 import { ListView } from './components/ListView';
 import { useCareerColumns } from './hooks/useCareerColumns';
-import { getAvailableTechs, getFlatTechList } from './utils/careerUtils';
 
 function App() {
   const [globalFilter, setGlobalFilter] = useState('');
   const [viewMode, setViewMode] = useState<"table" | "card" | "list">("table");
   const [showFilters, setShowFilters] = useState(false);
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [selectedTech, setSelectedTech] = useState<string | null>(null);
   const [selectedYear, setSelectedYear] = useState<string | null>(null);
   const [showDescriptionAsRow, setShowDescriptionAsRow] = useState(true);
-
-  // Extract unique technologies from careerData
-  const availableTechs = useMemo(() => getAvailableTechs(careerData), []);
 
   // Extract all unique years from careerData
   const availableYears = useMemo(() => {
@@ -50,24 +44,13 @@ function App() {
       );
     }
 
-    // Tech stack filter
-    if (selectedTech) {
-      data = data.filter(item => {
-        const allTechs = [
-          ...getFlatTechList(item.language),
-          ...getFlatTechList(item.tool)
-        ];
-        return allTechs.includes(selectedTech);
-      });
-    }
-
     // Year filter
     if (selectedYear) {
       data = data.filter(item => item.duration.includes(selectedYear));
     }
 
     return data;
-  }, [globalFilter, selectedTech, selectedYear]);
+  }, [globalFilter, selectedYear]);
 
   const columns = useCareerColumns(showDescriptionAsRow);
 
@@ -90,10 +73,7 @@ function App() {
       <Header />
       <main className="px-6 py-8 space-y-8 ">
         <section className="max-w-[1440px] mx-auto">
-          <ProfileSection
-            selectedTech={selectedTech}
-            onSelectTech={setSelectedTech}
-          />
+          <ProfileSection />
         </section>
 
         <section className="space-y-0 rounded-xl overflow-hidden border border-border-light dark:border-border-dark shadow-sm bg-surface-light dark:bg-surface-dark">
@@ -110,11 +90,7 @@ function App() {
             setShowDescriptionAsRow={setShowDescriptionAsRow}
           />
           {showFilters && (
-            <CareerFilters
-              techs={availableTechs}
-              selectedTech={selectedTech}
-              onSelectTech={setSelectedTech}
-            />
+            <div>Filters placeholder</div>
           )}
 
 
