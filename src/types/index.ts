@@ -44,5 +44,5 @@ export interface Career {
   category?: string;
   phase?: string;
   description?: string[] | string;
-  architecture?: string;
+  architecture?: string; // 시스템 아키텍처 설명
 }

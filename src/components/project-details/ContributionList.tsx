@@ -4,7 +4,13 @@ interface ContributionListProps {
 }
 
 export const ContributionList = ({ description = "" }: ContributionListProps) => {
-  const descriptions = Array.isArray(description) ? description : [description];
+  const descriptions = Array.isArray(description) 
+    ? description.filter(desc => desc && desc.trim() !== "") 
+    : description && description.trim() !== "" ? [description] : [];
+
+  if (descriptions.length === 0) {
+    return null;
+  }
 
   return (
     <section>
