@@ -13,8 +13,23 @@ import { CareerToolbar } from "./CareerToolbar";
 import { CareerTable } from "./CareerTable";
 
 export const CareerBoard = () => {
-  const [viewMode, setViewMode] = useState<"table" | "card">("table");
-  const [globalFilter, setGlobalFilter] = useState("");
+  const [viewMode, setViewMode] = useState<'table' | 'card' | 'list'>('table');
+  const [globalFilter, setGlobalFilter] = useState('');
+  const [showDescriptionAsRow, setShowDescriptionAsRow] = useState(false);
+  const [selectedYear, setSelectedYear] = useState<string | null>(null);
+  const [showFilters, setShowFilters] = useState(false);
+
+  // Extract available years from career data
+  const availableYears = useMemo(() => {
+    const years = new Set<string>();
+    careerData.forEach((item) => {
+      if (item.period) {
+        const year = item.period.split('.')[0];
+        years.add(year);
+      }
+    });
+    return Array.from(years).sort().reverse();
+  }, []);
 
   // Custom filter logic to handle search text
   const filteredData = useMemo(() => {
@@ -86,12 +101,18 @@ export const CareerBoard = () => {
         setGlobalFilter={setGlobalFilter}
         viewMode={viewMode}
         setViewMode={setViewMode}
+        onToggleFilters={() => setShowFilters(!showFilters)}
+        selectedYear={selectedYear}
+        setSelectedYear={setSelectedYear}
+        availableYears={availableYears}
+        showDescriptionAsRow={showDescriptionAsRow}
+        setShowDescriptionAsRow={setShowDescriptionAsRow}
       />
 
       {/* Main Content Area */}
       <div className="flex-1 overflow-auto bg-background-light dark:bg-background-dark p-6">
         {viewMode === "table" ? (
-          <CareerTable table={table} />
+          <CareerTable table={table} showDescriptionAsRow={showDescriptionAsRow} />
         ) : (
           <CardView rows={table.getRowModel().rows} />
         )}

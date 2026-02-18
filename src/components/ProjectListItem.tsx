@@ -7,6 +7,15 @@ interface ProjectListItemProps {
 
 export const ProjectListItem = ({ career }: ProjectListItemProps) => {
   const { period = "", company, role, description, techStack } = career;
+
+  // Flatten techStack to array of strings
+  const techStackArray = Array.isArray(techStack)
+    ? techStack
+    : [
+        ...(techStack.framework || []),
+        ...(techStack.library || []),
+        ...(techStack.other || []),
+      ];
   
   return (
     <div className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-200 overflow-hidden flex flex-col sm:flex-row">
@@ -28,7 +37,7 @@ export const ProjectListItem = ({ career }: ProjectListItemProps) => {
         </p>
 
         <div className="flex flex-wrap gap-2 mt-auto">
-          {techStack.map((tech) => (
+          {techStackArray.map((tech) => (
             <Badge key={tech} variant="secondary" className="bg-gray-50 text-gray-600">
               {tech}
             </Badge>
