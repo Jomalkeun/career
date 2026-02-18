@@ -43,5 +43,6 @@ export interface Career {
   period?: string;
   category?: string;
   phase?: string;
-  description?: string;
+  description?: string[] | string;
+  architecture?: string;
 }
