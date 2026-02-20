@@ -52,7 +52,7 @@ export const CareerTableRow = ({ career, onOpenModal, showDescriptionAsRow }: Ca
                   {career.phase}
                 </span>
               )}
-              {career.description}
+              {Array.isArray(career.description) ? career.description[0] : career.description}
             </span>
           </td>
         )}
