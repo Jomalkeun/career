@@ -8,6 +8,7 @@ import { CareerTable } from './components/CareerTable';
 import { CardView } from './components/CardView';
 import { ListView } from './components/ListView';
 import { useCareerColumns } from './hooks/useCareerColumns';
+import { CareerFilters } from './components/toolbar/CareerFilters';
 
 function App() {
   const [globalFilter, setGlobalFilter] = useState('');
@@ -16,6 +17,11 @@ function App() {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [selectedYear, setSelectedYear] = useState<string | null>(null);
   const [showDescriptionAsRow, setShowDescriptionAsRow] = useState(true);
+
+  // New states for advanced filters
+  const [selectedRoleTypes, setSelectedRoleTypes] = useState<string[]>([]);
+  const [selectedPhases, setSelectedPhases] = useState<string[]>([]);
+  const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
 
   // Extract all unique years from careerData
   const availableYears = useMemo(() => {
@@ -27,6 +33,28 @@ function App() {
       }
     });
     return Array.from(years).sort((a, b) => b.localeCompare(a)); // Descending years
+  }, []);
+
+  const availablePhases = useMemo(() => {
+    return Array.from(new Set(careerData.map(item => item.phase).filter(Boolean))) as string[];
+  }, []);
+
+  const availableSkills = useMemo(() => {
+    const skills = new Set<string>();
+    careerData.forEach(item => {
+      const extract = (obj: any) => {
+        if (!obj) return;
+        if (Array.isArray(obj)) {
+          obj.forEach(v => typeof v === 'string' && skills.add(v));
+        } else if (typeof obj === 'object') {
+          Object.values(obj).forEach(val => extract(val));
+        }
+      };
+      extract(item.language);
+      extract(item.tool);
+      extract(item.techStack);
+    });
+    return Array.from(skills).sort();
   }, []);
 
   // Filter logic
@@ -49,8 +77,38 @@ function App() {
       data = data.filter(item => item.duration.includes(selectedYear));
     }
 
+    // Role Type filter
+    if (selectedRoleTypes.length > 0) {
+      data = data.filter(item => selectedRoleTypes.includes(item.roleType));
+    }
+
+    // Phase filter
+    if (selectedPhases.length > 0) {
+      data = data.filter(item => item.phase && selectedPhases.includes(item.phase));
+    }
+
+    // Skills filter
+    if (selectedSkills.length > 0) {
+      data = data.filter(item => {
+        const itemSkills = new Set<string>();
+        const extract = (obj: any) => {
+          if (!obj) return;
+          if (Array.isArray(obj)) {
+            obj.forEach(v => typeof v === 'string' && itemSkills.add(v));
+          } else if (typeof obj === 'object') {
+            Object.values(obj).forEach(val => extract(val));
+          }
+        };
+        extract(item.language);
+        extract(item.tool);
+        extract(item.techStack);
+        
+        return selectedSkills.some(skill => itemSkills.has(skill));
+      });
+    }
+
     return data;
-  }, [globalFilter, selectedYear]);
+  }, [globalFilter, selectedYear, selectedRoleTypes, selectedPhases, selectedSkills]);
 
   const columns = useCareerColumns(showDescriptionAsRow);
 
@@ -90,7 +148,16 @@ function App() {
             setShowDescriptionAsRow={setShowDescriptionAsRow}
           />
           {showFilters && (
-            <div>Filters placeholder</div>
+            <CareerFilters
+              selectedRoleTypes={selectedRoleTypes}
+              setSelectedRoleTypes={setSelectedRoleTypes}
+              selectedPhases={selectedPhases}
+              setSelectedPhases={setSelectedPhases}
+              selectedSkills={selectedSkills}
+              setSelectedSkills={setSelectedSkills}
+              availablePhases={availablePhases}
+              availableSkills={availableSkills}
+            />
           )}
 
 
