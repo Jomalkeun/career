@@ -1,5 +1,6 @@
 import type { Career } from "../types";
 import { getFlatTechList } from "../utils/careerUtils";
+import { DescriptionList } from "./DescriptionList";
 
 interface CareerTableRowProps {
   career: Career;
@@ -46,14 +47,14 @@ export const CareerTableRow = ({ career, onOpenModal, showDescriptionAsRow }: Ca
         {!showDescriptionAsRow && (
           <td className="px-6 py-4">
 
-            <span className="text-slate-600 dark:text-slate-400 text-sm whitespace-pre-wrap min-w-[300px] block">
+            <div className="text-slate-600 dark:text-slate-400 text-sm min-w-[300px]">
               {career.phase && (
-                <span className="mr-2 px-2 py-0.5 text-xs rounded border border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-300 align-middle not-italic font-normal">
+                <span className="mb-2 inline-flex px-2 py-0.5 text-xs rounded border border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-300 font-normal">
                   {career.phase}
                 </span>
               )}
-              {Array.isArray(career.description) ? career.description[0] : career.description}
-            </span>
+              <DescriptionList description={career.description} compact />
+            </div>
           </td>
         )}
         <td className="px-6 py-4 whitespace-nowrap">
@@ -124,13 +125,15 @@ export const CareerTableRow = ({ career, onOpenModal, showDescriptionAsRow }: Ca
       </tr>
       {showDescriptionAsRow && (
         <tr className="hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors group">
-          <td colSpan={5} className="px-6 py-3 text-slate-600 dark:text-slate-400 text-sm italic bg-slate-50/50 dark:bg-slate-800/30">
-            {career.phase && (
-              <span className="mr-2 px-2 py-0.5 text-xs rounded border border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-300 align-middle not-italic font-normal">
-                {career.phase}
-              </span>
-            )}
-            <span className="align-middle">{career.description}</span>
+          <td colSpan={5} className="px-6 py-4 text-slate-600 dark:text-slate-400 text-sm bg-slate-50/50 dark:bg-slate-800/30">
+            <div className="flex items-start gap-3">
+              {career.phase && (
+                <span className="mt-0.5 shrink-0 px-2 py-0.5 text-xs rounded border border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-300 font-normal">
+                  {career.phase}
+                </span>
+              )}
+              <DescriptionList description={career.description} compact />
+            </div>
           </td>
         </tr>
       )}

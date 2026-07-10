@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import type { ColumnDef } from '@tanstack/react-table';
 import type { Career } from '../types';
 import { getFlatTechList } from '../utils/careerUtils';
+import { DescriptionList } from '../components/DescriptionList';
 
 export const useCareerColumns = (showDescriptionAsRow: boolean) => {
   return useMemo<ColumnDef<Career>[]>(
@@ -57,9 +58,9 @@ export const useCareerColumns = (showDescriptionAsRow: boolean) => {
           accessorKey: "description",
           header: "수행업무",
           cell: (info) => (
-            <span className="text-slate-600 dark:text-slate-400 text-sm whitespace-pre-wrap min-w-[300px] block">
-              {info.getValue() as string}
-            </span>
+            <div className="text-slate-600 dark:text-slate-400 text-sm min-w-[300px]">
+              <DescriptionList description={info.getValue() as Career["description"]} compact />
+            </div>
           ),
           enableSorting: false,
         });

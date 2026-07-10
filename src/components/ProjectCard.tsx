@@ -1,12 +1,15 @@
 import type { Career } from "../types";
 import { getFlatTechList } from "../utils/careerUtils";
+import { DescriptionList } from "./DescriptionList";
 
 interface ProjectCardProps {
   career: Career;
 }
 
+const formatShortPeriod = (period: string) => period.replace(/20(?=\d{2}\.)/g, '');
+
 export const ProjectCard = ({ career }: ProjectCardProps) => {
-  const { period = "", company, role, description, projectName, durationInMonths, client } = career;
+  const { period, duration, company, role, description, projectName, durationInMonths, client } = career;
 
   // Extract all techs from categorized structure
   const allTechs = [
@@ -45,14 +48,18 @@ export const ProjectCard = ({ career }: ProjectCardProps) => {
   return (
     <article className="bg-surface-light dark:bg-surface-dark rounded-xl p-5 shadow-soft border border-gray-100 dark:border-gray-700/50 relative overflow-hidden group hover:shadow-md transition-all duration-300">
       <div className={`absolute left-0 top-0 bottom-0 w-1.5 ${stripColor}`}></div>
-      <div className="flex justify-between items-start mb-2 pl-2">
-        <div>
+      <div className="flex justify-between items-start gap-3 mb-2 pl-2">
+        <div className="min-w-0 flex-1">
           <h3 className="text-base font-bold text-gray-900 dark:text-white leading-tight">{projectName || role}</h3>
           <p className={`text-xs ${roleColor} font-medium mt-1`}>{role}</p>
         </div>
-        <div className="text-right">
-          <span className="block text-xs font-bold text-gray-900 dark:text-gray-100">{period}</span>
-          <span className="block text-[10px] text-text-muted-light dark:text-text-muted-dark">{durationInMonths || "Duration N/A"}</span>
+        <div className="flex shrink-0 flex-col items-end gap-1 text-right">
+          <span className="block whitespace-nowrap text-xs font-bold text-gray-900 dark:text-gray-100">
+            {formatShortPeriod(period || duration)}
+          </span>
+          <span className={`inline-flex rounded-full px-2 py-0.5 text-[10px] font-semibold ${badgeClass}`}>
+            {durationInMonths ? `${durationInMonths}개월` : '기간 미정'}
+          </span>
         </div>
       </div>
       <div className="pl-2 mb-3">
@@ -64,9 +71,9 @@ export const ProjectCard = ({ career }: ProjectCardProps) => {
           <span className="w-1 h-1 bg-gray-300 rounded-full"></span>
           <span>{company === client ? 'In-house' : 'SI Project'}</span>
         </div>
-        <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed line-clamp-3">
-          {description}
-        </p>
+        <div className="text-sm text-gray-600 dark:text-gray-300 max-h-24 overflow-hidden">
+          <DescriptionList description={description} compact />
+        </div>
       </div>
       <div className="pl-2 flex flex-wrap gap-1.5 mt-3 pt-3 border-t border-gray-100 dark:border-gray-700 border-dashed">
         {allTechs.map((tech, idx) => (

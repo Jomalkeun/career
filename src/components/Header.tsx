@@ -29,10 +29,6 @@ export function Header() {
         </div>
   
         <div className="flex items-center gap-4">
-          <button className="p-2.5 md:px-6 md:py-2.5 bg-primary text-white text-[10px] font-bold uppercase tracking-widest rounded-full hover:shadow-glow-sapphire transition-all flex items-center gap-2">
-            <span className="material-symbols-outlined text-[16px]">download</span>
-            <span className="hidden md:inline">Download CV</span>
-          </button>
           <button className="p-2 rounded-full text-medium-gray hover:bg-deep-charcoal/5 transition-colors" onClick={toggleTheme}>
             <span className="material-symbols-outlined text-xl">{isDarkMode ? 'light_mode' : 'dark_mode'}</span>
           </button>

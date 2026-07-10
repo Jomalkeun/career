@@ -2,6 +2,7 @@ import type { Row } from "@tanstack/react-table";
 import type { Career } from "../types";
 import { useMemo } from 'react';
 import { getFlatTechList } from "../utils/careerUtils";
+import { DescriptionList } from "./DescriptionList";
 
 interface ListViewProps {
   rows: Row<Career>[];
@@ -10,10 +11,32 @@ interface ListViewProps {
 interface CareerGroup {
   id: string;
   company: string;
-  period: string; // Approximate period from first to last project in group or explicit field
+  period: string;
+  year: string;
   role: string;
   projects: Career[];
 }
+
+const getGroupPeriod = (projects: Career[]) => {
+  const dates = projects.flatMap((project) => project.duration.match(/\d{4}(?:\.\d{1,2})?/g) ?? []);
+
+  if (dates.length === 0) {
+    return { period: '-', year: '-' };
+  }
+
+  const sortedDates = [...dates].sort((a, b) => {
+    const [aYear, aMonth] = a.split('.');
+    const [bYear, bMonth] = b.split('.');
+    return Number(aYear) * 12 + Number(aMonth ?? 0) - (Number(bYear) * 12 + Number(bMonth ?? 0));
+  });
+  const start = sortedDates[0];
+  const end = sortedDates.at(-1) ?? start;
+
+  return {
+    period: start === end ? start : `${start} ~ ${end}`,
+    year: end.split('.')[0],
+  };
+};
 
 export const ListView = ({ rows }: ListViewProps) => {
   // Group rows by company/period continuity
@@ -29,9 +52,9 @@ export const ListView = ({ rows }: ListViewProps) => {
       // Check if we can continue with the current group (same company)
       if (currentGroup && currentGroup.company === career.company) {
         currentGroup.projects.push(career);
-        // Extend period logic could be improved, but for now we keep the group's main period 
-        // or update it if we parsed dates. For simplicity, we stick to the first project's period
-        // or the company-level period field if it existed.
+        const { period, year } = getGroupPeriod(currentGroup.projects);
+        currentGroup.period = period;
+        currentGroup.year = year;
         return;
       }
 
@@ -40,10 +63,12 @@ export const ListView = ({ rows }: ListViewProps) => {
         result.push(currentGroup);
       }
 
+      const { period, year } = getGroupPeriod([career]);
       currentGroup = {
         id: `group-${career.id}`,
         company: career.company,
-        period: career.period || "2024", // Fallback
+        period,
+        year,
         role: career.role, // Main role, or most recent
         projects: [career],
       };
@@ -92,8 +117,14 @@ export const ListView = ({ rows }: ListViewProps) => {
     return styles[index % styles.length];
   };
 
+  const getProjectGridClass = (projectCount: number) => {
+    if (projectCount === 1) return 'max-w-md mx-auto';
+    if (projectCount === 2) return 'md:grid-cols-2 max-w-4xl mx-auto';
+    return 'md:grid-cols-2 xl:grid-cols-3 max-w-7xl mx-auto';
+  };
+
   return (
-    <main className="max-w-md mx-auto px-4 pb-24 relative">
+    <main className="max-w-7xl mx-auto px-4 pb-24 relative">
       <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-0.5 bg-slate-200 dark:bg-slate-700 opacity-50"></div>
 
       {groups.map((group, index) => {
@@ -103,9 +134,9 @@ export const ListView = ({ rows }: ListViewProps) => {
           <div key={group.id} className="relative mb-16">
             <div className="flex flex-col items-center mb-10">
               <div className={`z-10 text-[10px] font-bold px-3 py-1 rounded-full shadow-lg mb-4 ${style.yearBg}`}>
-                {group.period.split(/[.-]/)[0] || '2024'} {/* Extract Year roughly */}
+                {group.year}
               </div>
-              <div className="z-10 bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-md border border-slate-100 dark:border-slate-700 w-full text-center">
+              <div className="z-10 bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-md border border-slate-100 dark:border-slate-700 w-full max-w-md text-center">
                 <div className={`w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-3 ${style.iconBg}`}>
                   <span className={`material-symbols-outlined text-2xl ${style.iconColor}`}>{style.icon}</span>
                 </div>
@@ -115,7 +146,7 @@ export const ListView = ({ rows }: ListViewProps) => {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 gap-6 px-2">
+            <div className={`grid grid-cols-1 gap-6 px-2 ${getProjectGridClass(group.projects.length)}`}>
               {group.projects.map((project) => (
                 <div key={project.id} className="relative flex items-start group">
                   <div className={`bg-white dark:bg-slate-800 p-5 rounded-2xl shadow-sm border-l-4 w-full hover:shadow-md transition-shadow ${style.border}`}>
@@ -125,9 +156,9 @@ export const ListView = ({ rows }: ListViewProps) => {
                         open_in_new
                       </button>
                     </div>
-                    <p className="text-sm text-slate-600 dark:text-slate-400 mb-4 line-clamp-2">
-                      {project.description}
-                    </p>
+                    <div className="text-sm text-slate-600 dark:text-slate-400 mb-4 max-h-24 overflow-hidden">
+                      <DescriptionList description={project.description} compact />
+                    </div>
                     <div className="flex flex-wrap gap-2">
                       {(() => {
                         const allTechs = [
