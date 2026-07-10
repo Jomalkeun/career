@@ -30,7 +30,7 @@ export const ProjectDetailsModal = ({ isOpen, onClose, project }: ProjectDetails
                 <ArchitectureSection project={project} />
             </div>
          </div>
-         <ProjectFooter />
+         <ProjectFooter demoUrl={project.demoUrl} githubUrl={project.githubUrl} />
       </div>
     </Modal>
   );

@@ -43,6 +43,8 @@ export interface Career {
   period?: string;
   category?: string;
   phase?: string;
+  demoUrl?: string;
+  githubUrl?: string;
   description?: string[] | string;
   architecture?: React.ReactElement; // 시스템 아키텍처 설명
 }
