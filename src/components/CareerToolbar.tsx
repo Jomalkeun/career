@@ -8,8 +8,8 @@ import { YearSelect } from './toolbar/YearSelect';
 interface CareerToolbarProps {
   globalFilter: string;
   setGlobalFilter: (value: string) => void;
-  viewMode: 'table' | 'card' | 'list';
-  setViewMode: (mode: 'table' | 'card' | 'list') => void;
+  viewMode: 'table' | 'card' | 'list' | 'group';
+  setViewMode: (mode: 'table' | 'card' | 'list' | 'group') => void;
   onToggleFilters: () => void;
   selectedYear: string | null;
   setSelectedYear: (year: string | null) => void;
@@ -38,11 +38,13 @@ export const CareerToolbar = ({
         placeholder="Search projects, clients, or skills..."
       />
       <div className="flex flex-wrap items-center gap-3 w-full lg:w-auto">
-        <YearSelect
-          years={availableYears}
-          selectedYear={selectedYear}
-          onChange={setSelectedYear}
-        />
+        {viewMode !== 'group' && (
+          <YearSelect
+            years={availableYears}
+            selectedYear={selectedYear}
+            onChange={setSelectedYear}
+          />
+        )}
         <ToolbarButton
           icon="filter_list"
           label="Filter"

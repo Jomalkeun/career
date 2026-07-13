@@ -1,6 +1,8 @@
 
 import { renderToStaticMarkup } from 'react-dom/server';
 import { careerData } from '../../data/careerData';
+import { formatRoles } from '../../constants/roles';
+import type { Career } from '../../types';
 
 export const ExportButton = () => {
   const handleExport = () => {
@@ -25,13 +27,13 @@ export const ExportButton = () => {
     `;
 
     // Helper functions inside handleExport instead of component body
-    const getLanguageStr = (lang: any) => {
+    const getLanguageStr = (lang: Career['language']) => {
       if (!lang) return '';
       if (Array.isArray(lang)) return lang.join(', ');
       return [...(lang.scripts || []), ...(lang.framework || []), ...(lang.stylesheet || []), ...(lang.other || [])].join(', ');
     };
 
-    const getToolStr = (tool: any) => {
+    const getToolStr = (tool: Career['tool']) => {
       if (!tool) return '';
       if (Array.isArray(tool)) return tool.join(', ');
       return [...(tool.designTool || []), ...(tool.versionControl || []), ...(tool.library || []), ...(tool.cms || []), ...(tool.framework || []), ...(tool.other || [])].join(', ');
@@ -41,7 +43,7 @@ export const ExportButton = () => {
       <div className="project" key={item.id}>
         <div className="title">{item.projectName}</div>
         <div className="meta">
-          {item.duration} | {item.client} | {item.role} ({item.roleType === 'lead' ? 'PL' : 'Member'})
+          {item.duration} | {item.client} | {item.position ? `${item.position} | ` : ''}{formatRoles(item.roles)}
         </div>
         <table className="table">
           <tbody>
@@ -100,12 +102,15 @@ export const ExportButton = () => {
   return (
     <button 
       onClick={handleExport}
-      className="flex items-center gap-2 px-4 py-2 bg-primary hover:bg-blue-600 text-white rounded-lg shadow-sm transition-all active:scale-[0.98] group ml-2"
+      type="button"
+      aria-label="Word Export"
+      title="Word Export"
+      className="ml-2 flex h-[38px] w-[38px] items-center justify-center rounded-lg bg-primary p-0 text-white shadow-sm transition-all hover:bg-blue-600 active:scale-[0.98] group"
     >
       <span className="material-symbols-outlined text-[18px] group-hover:animate-bounce">
         download
       </span>
-      <span className="text-sm font-bold">Word Export</span>
+      <span className="sr-only">Word Export</span>
     </button>
   );
 };

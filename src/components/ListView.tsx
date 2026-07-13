@@ -3,6 +3,9 @@ import type { Career } from "../types";
 import { useMemo } from 'react';
 import { getFlatTechList } from "../utils/careerUtils";
 import { DescriptionList } from "./DescriptionList";
+import { RoleBadges } from "./RoleBadges";
+import type { RoleCode } from "../types";
+import { EmploymentBadge } from "./EmploymentBadge";
 
 interface ListViewProps {
   rows: Row<Career>[];
@@ -13,7 +16,8 @@ interface CareerGroup {
   company: string;
   period: string;
   year: string;
-  role: string;
+  roles: RoleCode[];
+  position?: string;
   projects: Career[];
 }
 
@@ -52,6 +56,7 @@ export const ListView = ({ rows }: ListViewProps) => {
       // Check if we can continue with the current group (same company)
       if (currentGroup && currentGroup.company === career.company) {
         currentGroup.projects.push(career);
+        currentGroup.roles = Array.from(new Set([...currentGroup.roles, ...career.roles]));
         const { period, year } = getGroupPeriod(currentGroup.projects);
         currentGroup.period = period;
         currentGroup.year = year;
@@ -69,7 +74,8 @@ export const ListView = ({ rows }: ListViewProps) => {
         company: career.company,
         period,
         year,
-        role: career.role, // Main role, or most recent
+        roles: [...career.roles],
+        position: career.position,
         projects: [career],
       };
     });
@@ -141,7 +147,10 @@ export const ListView = ({ rows }: ListViewProps) => {
                   <span className={`material-symbols-outlined text-2xl ${style.iconColor}`}>{style.icon}</span>
                 </div>
                 <h3 className="text-lg font-bold text-gray-900 dark:text-white">{group.company}</h3>
-                <p className="text-sm text-slate-500 dark:text-slate-400 mb-2">{group.role}</p>
+                {group.position && <p className="text-sm text-slate-500 dark:text-slate-400 mb-2">{group.position}</p>}
+                <div className="mb-2 flex justify-center">
+                  <RoleBadges roles={group.roles} compact />
+                </div>
                 <p className="text-xs text-slate-400 dark:text-slate-500 italic">{group.period}</p>
               </div>
             </div>
@@ -155,6 +164,12 @@ export const ListView = ({ rows }: ListViewProps) => {
                       <button className="material-symbols-outlined text-slate-300 group-hover:text-primary transition-colors cursor-pointer text-[20px]">
                         open_in_new
                       </button>
+                    </div>
+                    <div className="mb-3">
+                      <div className="flex flex-wrap items-center gap-1.5">
+                        <EmploymentBadge type={project.employmentType} compact />
+                        <RoleBadges roles={project.roles} compact />
+                      </div>
                     </div>
                     <div className="text-sm text-slate-600 dark:text-slate-400 mb-4 max-h-24 overflow-hidden">
                       <DescriptionList description={project.description} compact />

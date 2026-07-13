@@ -24,6 +24,9 @@ export interface LanguageCategorized {
   other?: string[];
 }
 
+export type RoleCode = 'PM' | 'PL' | 'A' | 'P' | 'D' | 'O' | 'E' | 'W' | 'SE';
+
+export type EmploymentType = '정규직' | '프리랜서' | '계약직' | '인턴';
 
 export interface Career {
   id: string;
@@ -34,8 +37,8 @@ export interface Career {
   durationInMonths: string;
   client: string;
   company: string;
-  role: string;
-  roleType: 'lead' | 'member';
+  roles: RoleCode[];
+  position?: string;
   osEnv: string;
   techStack: string[] | TechStackCategorized;
   language?: string[] | LanguageCategorized;
@@ -47,4 +50,5 @@ export interface Career {
   githubUrl?: string;
   description?: string[] | string;
   architecture?: React.ReactElement; // 시스템 아키텍처 설명
+  employmentType: EmploymentType; // 고용 형태
 }

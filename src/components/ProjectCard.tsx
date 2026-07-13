@@ -1,6 +1,8 @@
 import type { Career } from "../types";
 import { getFlatTechList } from "../utils/careerUtils";
 import { DescriptionList } from "./DescriptionList";
+import { RoleBadges } from "./RoleBadges";
+import { EmploymentBadge } from "./EmploymentBadge";
 
 interface ProjectCardProps {
   career: Career;
@@ -9,7 +11,7 @@ interface ProjectCardProps {
 const formatShortPeriod = (period: string) => period.replace(/20(?=\d{2}\.)/g, '');
 
 export const ProjectCard = ({ career }: ProjectCardProps) => {
-  const { period, duration, company, role, description, projectName, durationInMonths, client } = career;
+  const { period, duration, company, roles, position, description, projectName, durationInMonths, client } = career;
 
   // Extract all techs from categorized structure
   const allTechs = [
@@ -20,7 +22,7 @@ export const ProjectCard = ({ career }: ProjectCardProps) => {
   // Random color selection for the left border strip, or deterministically based on id/name
   const colors = ['bg-primary', 'bg-indigo-500', 'bg-teal-500', 'bg-purple-500', 'bg-rose-500', 'bg-amber-500'];
   // Simple deterministic pick
-  const colorIndex = (projectName || role).length % colors.length;
+  const colorIndex = (projectName || roles.join('')).length % colors.length;
   const stripColor = colors[colorIndex];
 
   // Text color mapping for role/subtitle based on strip color approximation
@@ -50,8 +52,11 @@ export const ProjectCard = ({ career }: ProjectCardProps) => {
       <div className={`absolute left-0 top-0 bottom-0 w-1.5 ${stripColor}`}></div>
       <div className="flex justify-between items-start gap-3 mb-2 pl-2">
         <div className="min-w-0 flex-1">
-          <h3 className="text-base font-bold text-gray-900 dark:text-white leading-tight">{projectName || role}</h3>
-          <p className={`text-xs ${roleColor} font-medium mt-1`}>{role}</p>
+          <h3 className="text-base font-bold text-gray-900 dark:text-white leading-tight">{projectName}</h3>
+          {position && <p className={`text-xs ${roleColor} font-medium mt-1`}>{position}</p>}
+          <div className="mt-2">
+            <RoleBadges roles={roles} compact />
+          </div>
         </div>
         <div className="flex shrink-0 flex-col items-end gap-1 text-right">
           <span className="block whitespace-nowrap text-xs font-bold text-gray-900 dark:text-gray-100">
@@ -63,6 +68,9 @@ export const ProjectCard = ({ career }: ProjectCardProps) => {
         </div>
       </div>
       <div className="pl-2 mb-3">
+        <div className="mb-2">
+          <EmploymentBadge type={career.employmentType} compact />
+        </div>
         <div className="flex items-center gap-2 text-xs text-text-muted-light dark:text-text-muted-dark mb-2">
           <span className="flex items-center gap-1">
             <span className="material-symbols-outlined text-[14px]">business</span>

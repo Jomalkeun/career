@@ -7,21 +7,30 @@ import { CareerToolbar } from './components/CareerToolbar';
 import { CareerTable } from './components/CareerTable';
 import { CardView } from './components/CardView';
 import { ListView } from './components/ListView';
+import { CompanyGroupTableView } from './components/CompanyGroupTableView';
 import { useCareerColumns } from './hooks/useCareerColumns';
 import { CareerFilters } from './components/toolbar/CareerFilters';
+import { groupCareerByCompany } from './utils/careerUtils';
+import type { RoleCode } from './types';
+import { formatRoles } from './constants/roles';
 
 function App() {
   const [globalFilter, setGlobalFilter] = useState('');
-  const [viewMode, setViewMode] = useState<"table" | "card" | "list">("table");
+  const [viewMode, setViewMode] = useState<"table" | "card" | "list" | "group">("group");
   const [showFilters, setShowFilters] = useState(false);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [selectedYear, setSelectedYear] = useState<string | null>(null);
   const [showDescriptionAsRow, setShowDescriptionAsRow] = useState(true);
 
   // New states for advanced filters
-  const [selectedRoleTypes, setSelectedRoleTypes] = useState<string[]>([]);
+  const [selectedRoles, setSelectedRoles] = useState<RoleCode[]>([]);
   const [selectedPhases, setSelectedPhases] = useState<string[]>([]);
   const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
+
+  const handleViewModeChange = (mode: "table" | "card" | "list" | "group") => {
+    setViewMode(mode);
+    if (mode === "group") setSelectedYear(null);
+  };
 
   // Extract all unique years from careerData
   const availableYears = useMemo(() => {
@@ -65,7 +74,7 @@ function App() {
     if (globalFilter) {
       const lowerFilter = globalFilter.toLowerCase();
       data = data.filter((item) =>
-        Object.values(item).some(
+        [...Object.values(item), formatRoles(item.roles)].some(
           (val) =>
             typeof val === "string" && val.toLowerCase().includes(lowerFilter)
         )
@@ -73,13 +82,13 @@ function App() {
     }
 
     // Year filter
-    if (selectedYear) {
+    if (selectedYear && viewMode !== "group") {
       data = data.filter(item => item.duration.includes(selectedYear));
     }
 
-    // Role Type filter
-    if (selectedRoleTypes.length > 0) {
-      data = data.filter(item => selectedRoleTypes.includes(item.roleType));
+    // Role filter
+    if (selectedRoles.length > 0) {
+      data = data.filter(item => selectedRoles.some(role => item.roles.includes(role)));
     }
 
     // Phase filter
@@ -108,7 +117,12 @@ function App() {
     }
 
     return data;
-  }, [globalFilter, selectedYear, selectedRoleTypes, selectedPhases, selectedSkills]);
+  }, [globalFilter, selectedYear, selectedRoles, selectedPhases, selectedSkills, viewMode]);
+
+  // Group data for group view
+  const groupedData = useMemo(() => {
+    return groupCareerByCompany(filteredData, careerData);
+  }, [filteredData]);
 
   const columns = useCareerColumns(showDescriptionAsRow);
 
@@ -139,7 +153,7 @@ function App() {
             globalFilter={globalFilter}
             setGlobalFilter={setGlobalFilter}
             viewMode={viewMode}
-            setViewMode={setViewMode}
+            setViewMode={handleViewModeChange}
             onToggleFilters={() => setShowFilters(!showFilters)}
             selectedYear={selectedYear}
             setSelectedYear={setSelectedYear}
@@ -149,8 +163,8 @@ function App() {
           />
           {showFilters && (
             <CareerFilters
-              selectedRoleTypes={selectedRoleTypes}
-              setSelectedRoleTypes={setSelectedRoleTypes}
+              selectedRoles={selectedRoles}
+              setSelectedRoles={setSelectedRoles}
               selectedPhases={selectedPhases}
               setSelectedPhases={setSelectedPhases}
               selectedSkills={selectedSkills}
@@ -162,7 +176,11 @@ function App() {
 
 
           <div className="p-0">
-            {viewMode === "table" ? (
+            {viewMode === "group" ? (
+              <div className="p-6">
+                <CompanyGroupTableView groups={groupedData} />
+              </div>
+            ) : viewMode === "table" ? (
               <CareerTable table={table} showDescriptionAsRow={showDescriptionAsRow} />
             ) : viewMode === "card" ? (
               <div className="p-6">
