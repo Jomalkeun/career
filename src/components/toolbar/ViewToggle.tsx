@@ -1,14 +1,15 @@
 
 interface ViewToggleProps {
-  viewMode: 'table' | 'card' | 'list';
-  setViewMode: (mode: 'table' | 'card' | 'list') => void;
+  viewMode: 'table' | 'card' | 'list' | 'group';
+  setViewMode: (mode: 'table' | 'card' | 'list' | 'group') => void;
 }
 
 export const ViewToggle = ({ viewMode, setViewMode }: ViewToggleProps) => {
-  const modes: { id: 'table' | 'card' | 'list'; icon: string }[] = [
-    { id: 'list', icon: 'view_list' }, // Note: id was list but icon view_list
-    { id: 'card', icon: 'grid_view' },
+  const modes: { id: 'table' | 'card' | 'list' | 'group'; icon: string }[] = [
+    { id: 'group', icon: 'apartment' },
     { id: 'table', icon: 'table_rows' },
+    { id: 'card', icon: 'grid_view' },
+    { id: 'list', icon: 'view_list' },
   ];
 
   return (
@@ -22,6 +23,12 @@ export const ViewToggle = ({ viewMode, setViewMode }: ViewToggleProps) => {
               ? "bg-white dark:bg-slate-700 shadow-sm text-primary dark:text-primary ring-1 ring-black/5 dark:ring-white/10"
               : "text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
             }`}
+          title={
+            mode.id === 'group' ? 'Group by Company' :
+            mode.id === 'table' ? 'Table View' :
+            mode.id === 'card' ? 'Grid View' :
+            'List View'
+          }
         >
           <span className="material-symbols-outlined text-[20px] block">{mode.icon}</span>
         </button>

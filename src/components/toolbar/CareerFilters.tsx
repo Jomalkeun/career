@@ -1,8 +1,10 @@
 import React from 'react';
+import type { RoleCode } from '../../types';
+import { ROLE_DEFINITIONS } from '../../constants/roles';
 
 interface CareerFiltersProps {
-  selectedRoleTypes: string[];
-  setSelectedRoleTypes: (roles: string[]) => void;
+  selectedRoles: RoleCode[];
+  setSelectedRoles: (roles: RoleCode[]) => void;
   selectedPhases: string[];
   setSelectedPhases: (phases: string[]) => void;
   selectedSkills: string[];
@@ -12,8 +14,8 @@ interface CareerFiltersProps {
 }
 
 export const CareerFilters: React.FC<CareerFiltersProps> = ({
-  selectedRoleTypes,
-  setSelectedRoleTypes,
+  selectedRoles,
+  setSelectedRoles,
   selectedPhases,
   setSelectedPhases,
   selectedSkills,
@@ -21,10 +23,10 @@ export const CareerFilters: React.FC<CareerFiltersProps> = ({
   availablePhases,
   availableSkills,
 }) => {
-  const toggleSelection = (
-    current: string[],
-    set: (v: string[]) => void,
-    value: string
+  const toggleSelection = <T extends string,>(
+    current: T[],
+    set: (v: T[]) => void,
+    value: T
   ) => {
     if (current.includes(value)) {
       set(current.filter((item) => item !== value));
@@ -57,17 +59,15 @@ export const CareerFilters: React.FC<CareerFiltersProps> = ({
     <div className="p-6 bg-slate-50 dark:bg-slate-900 border-b border-border-light dark:border-border-dark">
       <div className="max-w-5xl space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <FilterGroup title="Role">
-            <FilterPill
-              label="Lead / PL"
-              selected={selectedRoleTypes.includes('lead')}
-              onClick={() => toggleSelection(selectedRoleTypes, setSelectedRoleTypes, 'lead')}
-            />
-            <FilterPill
-              label="Member / PA"
-              selected={selectedRoleTypes.includes('member')}
-              onClick={() => toggleSelection(selectedRoleTypes, setSelectedRoleTypes, 'member')}
-            />
+          <FilterGroup title="본인역할">
+            {ROLE_DEFINITIONS.map(({ code, label }) => (
+              <FilterPill
+                key={code}
+                label={label ? `${code} ${label}` : code}
+                selected={selectedRoles.includes(code)}
+                onClick={() => toggleSelection(selectedRoles, setSelectedRoles, code)}
+              />
+            ))}
           </FilterGroup>
 
           {availablePhases.length > 0 && (
@@ -100,11 +100,11 @@ export const CareerFilters: React.FC<CareerFiltersProps> = ({
         )}
 
         {/* Clear Filters Button */}
-        {(selectedRoleTypes.length > 0 || selectedPhases.length > 0 || selectedSkills.length > 0) && (
+        {(selectedRoles.length > 0 || selectedPhases.length > 0 || selectedSkills.length > 0) && (
           <div className="pt-2">
             <button
               onClick={() => {
-                setSelectedRoleTypes([]);
+                setSelectedRoles([]);
                 setSelectedPhases([]);
                 setSelectedSkills([]);
               }}

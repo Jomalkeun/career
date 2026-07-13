@@ -1,6 +1,8 @@
 import type { Career } from "../types";
 import { getFlatTechList } from "../utils/careerUtils";
 import { DescriptionList } from "./DescriptionList";
+import { RoleBadges } from "./RoleBadges";
+import { EmploymentBadge } from "./EmploymentBadge";
 
 interface CareerTableRowProps {
   career: Career;
@@ -18,7 +20,7 @@ export const CareerTableRow = ({ career, onOpenModal, showDescriptionAsRow }: Ca
         >
           <div className="flex items-center gap-3">
             <div className="w-2 h-2 rounded-full bg-slate-300 dark:bg-slate-600"></div>
-            <span>{career.projectName || career.role}</span>
+            <span>{career.projectName || career.projectType}</span>
             <button
               onClick={(e) => {
                 e.stopPropagation();
@@ -37,12 +39,18 @@ export const CareerTableRow = ({ career, onOpenModal, showDescriptionAsRow }: Ca
           {career.client || 'Client'}
         </td>
         <td className="px-6 py-4 whitespace-nowrap text-slate-600 dark:text-slate-300">
-          {career.company || 'Company'}
+          <div className="space-y-1.5">
+            <p>{career.company || 'Company'}</p>
+            <EmploymentBadge type={career.employmentType} compact />
+          </div>
         </td>
         <td className="px-6 py-4 whitespace-nowrap">
-          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300">
-            {career.role}
-          </span>
+          <div className="space-y-1.5">
+            {career.position && (
+              <p className="text-xs font-medium text-slate-500 dark:text-slate-400">{career.position}</p>
+            )}
+            <RoleBadges roles={career.roles} />
+          </div>
         </td>
         {!showDescriptionAsRow && (
           <td className="px-6 py-4">

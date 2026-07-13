@@ -3,6 +3,8 @@ import type { ColumnDef } from '@tanstack/react-table';
 import type { Career } from '../types';
 import { getFlatTechList } from '../utils/careerUtils';
 import { DescriptionList } from '../components/DescriptionList';
+import { RoleBadges } from '../components/RoleBadges';
+import { EmploymentBadge } from '../components/EmploymentBadge';
 
 export const useCareerColumns = (showDescriptionAsRow: boolean) => {
   return useMemo<ColumnDef<Career>[]>(
@@ -37,17 +39,28 @@ export const useCareerColumns = (showDescriptionAsRow: boolean) => {
         {
           accessorKey: "company",
           header: "근무회사",
-          cell: (info) => <span className="text-slate-600 dark:text-slate-300">{info.getValue() as string || 'Company'}</span>,
+          cell: (info) => (
+            <div className="space-y-1.5 text-slate-600 dark:text-slate-300">
+              <p>{info.getValue() as string || 'Company'}</p>
+              <EmploymentBadge type={info.row.original.employmentType} compact />
+            </div>
+          ),
           enableSorting: false,
         },
         {
-          accessorKey: "role",
+          accessorKey: "roles",
           header: "본인역할",
-          cell: (info) => (
-            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300">
-              {info.getValue() as string}
-            </span>
-          ),
+          cell: (info) => {
+            const career = info.row.original;
+            return (
+              <div className="space-y-1.5">
+                {career.position && (
+                  <p className="text-xs font-medium text-slate-500 dark:text-slate-400">{career.position}</p>
+                )}
+                <RoleBadges roles={info.getValue() as Career["roles"]} />
+              </div>
+            );
+          },
           enableSorting: false,
         },
       ];
