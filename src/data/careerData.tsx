@@ -41,9 +41,11 @@ const employmentTypeByCompany: Record<string, EmploymentType> = {
   "퍼플아이오": "프리랜서",
   "파이언넷 주식회사": "프리랜서",
   "비즈마인": "프리랜서",
+  "MetaUX": "프리랜서",
 };
 
 const positionByCompany: Partial<Record<string, string>> = {
+  "MetaUX": "매니저",
   "비즈마인": "차장",
   "파이언넷 주식회사": "과장",
   "퍼플아이오": "과장",
@@ -86,6 +88,34 @@ const createCareer = (entry: CareerEntry): Career => {
 };
 
 export const careerData: Career[] = [
+  createCareer({
+    id: "2025-12",
+    projectName: "이랜드 HOKA 쇼핑몰 구축",
+    duration: "2026.9 ~ 2027.03",
+    durationInMonths: "6",
+    client: "E-land",
+    company: "MetaUX",
+    roles: ["PL", "P", "D"],
+    osEnv: "Web / Mobile",
+    language: { framework: ["React.js"],
+    tool: { designTool: ["Figma"], framework: ["Panda CSS"], versionControl: ["GitLab"], other: ["Storybook", "Codex"] },
+    techStack: { responsiveWeb: true, other: ["컴포넌트 설계"] },
+    phase: "구축",
+    description: [
+      "React 기반 Web·Mobile 쇼핑몰 리뉴얼과 UI 컴포넌트 개발을 수행",
+      "Storybook에서 공통 UI 컴포넌트를 개발하고 컴포넌트 단위로 검증",
+      "재사용성과 일관성을 고려해 React 컴포넌트 구조를 설계하고 공통화",
+      "Panda CSS 스타일 시스템을 활용해 컴포넌트 스타일을 구현",
+      "Figma 디자인과 구현 결과의 정합성을 검토",
+    ],
+    architecture: (
+      <blockquote>
+        <p>
+          글로벌 신발 브랜드 HOKA 런칭
+        </p>
+      </blockquote>
+    ),
+  }),
   createCareer({
     id: "2026-06",
     projectName: "SKT 채널 통합 고도화 AI DevOps 프로젝트",
